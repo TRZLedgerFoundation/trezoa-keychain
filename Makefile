@@ -6,35 +6,35 @@ SDKV3_ALL_FEATURES := all,sdk-v3,unsafe-debug,integration-tests
 
 fmt:
 	@echo "Formatting code..."
-	@cargo fmt
+	@cd rust && cargo fmt
 	@echo "Running clippy with SDK v2..."
-	@cargo clippy --all-targets --no-default-features --features $(SDKV2_ALL_FEATURES) -- -D warnings
+	@cd rust && cargo clippy --all-targets --no-default-features --features $(SDKV2_ALL_FEATURES) -- -D warnings
 	@echo "Running clippy with SDK v3..."
-	@cargo clippy --all-targets --no-default-features --features $(SDKV3_ALL_FEATURES) -- -D warnings
+	@cd rust && cargo clippy --all-targets --no-default-features --features $(SDKV3_ALL_FEATURES) -- -D warnings
 
 test:
 	@echo "Running tests with SDK v2..."
-	@cargo test --no-default-features --features all,sdk-v2,unsafe-debug
+	@cd rust && cargo test --no-default-features --features all,sdk-v2,unsafe-debug
 	@echo "Running tests with SDK v3..."
-	@cargo test --no-default-features --features all,sdk-v3,unsafe-debug
+	@cd rust && cargo test --no-default-features --features all,sdk-v3,unsafe-debug
 
 test-integration:
 	@echo "Running integration tests with SDK v2..."
 	@for test in $(INTEGRATION_TESTS); do \
-		cargo test --no-default-features --features all,sdk-v2,unsafe-debug,integration-tests tests::$$test:: || exit 1; \
+		cd rust && cargo test --no-default-features --features all,sdk-v2,unsafe-debug,integration-tests tests::$$test:: || exit 1; \
 	done
 	@echo "Running integration tests with SDK v3..."
 	@for test in $(INTEGRATION_TESTS); do \
-		cargo test --no-default-features --features all,sdk-v3,unsafe-debug,integration-tests tests::$$test:: || exit 1; \
+		cd rust && cargo test --no-default-features --features all,sdk-v3,unsafe-debug,integration-tests tests::$$test:: || exit 1; \
 	done
 
 test-all: test test-integration
 
 build:
 	@echo "Building with SDK v2..."
-	@cargo build --features all,sdk-v2
+	@cd rust && cargo build --features all,sdk-v2
 	@echo "Building with SDK v3..."
-	@cargo build --no-default-features --features all,sdk-v3
+	@cd rust && cargo build --no-default-features --features all,sdk-v3
 
 release:
 	@echo "🚀 Release Process"
@@ -52,7 +52,7 @@ release:
 		echo "❌ Error: git-cliff not installed. Install with: cargo install git-cliff"; \
 		exit 1; \
 	fi
-	@echo "Current version: $$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')"
+	@echo "Current version: $$(cd rust && cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')"
 	@read -p "Enter new version (e.g., 0.1.1): " VERSION; \
 	if [ -z "$$VERSION" ]; then \
 		echo "❌ Error: Version cannot be empty"; \
@@ -60,18 +60,18 @@ release:
 	fi; \
 	echo ""; \
 	echo "📝 Updating version to $$VERSION..."; \
-	cargo set-version $$VERSION; \
+	cd rust && cargo set-version $$VERSION; \
 	echo ""; \
 	echo "📋 Generating CHANGELOG.md..."; \
 	LAST_TAG=$$(git tag -l "v*" --sort=-version:refname | head -1); \
 	if [ -z "$$LAST_TAG" ]; then \
-		git-cliff $$(git rev-list --max-parents=0 HEAD)..HEAD --config .github/cliff.toml --output CHANGELOG.md --strip all; \
+		git-cliff $$(git rev-list --max-parents=0 HEAD)..HEAD --config .github/cliff.toml --output rust/CHANGELOG.md --strip all; \
 	else \
-		git-cliff $$LAST_TAG..HEAD --config .github/cliff.toml --output CHANGELOG.md --strip all; \
+		git-cliff $$LAST_TAG..HEAD --config .github/cliff.toml --output rust/CHANGELOG.md --strip all; \
 	fi; \
 	echo ""; \
 	echo "📦 Committing changes..."; \
-	git add Cargo.toml CHANGELOG.md; \
+	git add rust/Cargo.toml rust/CHANGELOG.md; \
 	git commit -m "chore: release v$$VERSION"; \
 	echo ""; \
 	echo "🏷️  Creating git tags..."; \
