@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`solana-signers` is a Rust library providing a unified interface for signing Solana transactions across multiple backend implementations. The architecture centers around a single `SolanaSigner` trait that abstracts over four different signing backends: Memory (local keypairs), Vault (HashiCorp), Privy, and Turnkey.
+`solana-keychain` is a Rust library providing a unified interface for signing Solana transactions across multiple backend implementations. The architecture centers around a single `SolanaSigner` trait that abstracts over four different signing backends: Memory (local keypairs), Vault (HashiCorp), Privy, and Turnkey.
 
 ## Common Commands
 
@@ -39,6 +39,18 @@ cargo fmt
 
 # Just run clippy
 cargo clippy --all-targets --all-features -- -D warnings
+```
+
+### Publishing a Release
+```bash
+# Prepare a new release (bumps version, generates CHANGELOG, creates tags)
+make release
+
+# After reviewing changes, push to GitHub
+git push && git push --tags
+
+# Then manually trigger the "Publish Rust Crate" workflow on GitHub Actions
+# This will publish to crates.io and create a GitHub release
 ```
 
 ## Architecture
