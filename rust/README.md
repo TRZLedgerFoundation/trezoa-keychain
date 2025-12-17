@@ -150,10 +150,12 @@ pub trait SolanaSigner: Send + Sync {
 
 ### Local Development
 
+Local development and testing use [Just](https://github.com/casey/just) as a build and development tool--make sure to install it before running any commands.
+
 ```bash
-make build
-make test
-make fmt
+just build
+just test
+just fmt
 ```
 
 ### Adding a New Signer Backend
