@@ -28,6 +28,8 @@ jobs:
   publish:
     name: Publish @solana/keychain
     runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PROVENANCE: true
 
     steps:
       - name: Checkout repository
@@ -45,7 +47,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -87,19 +88,17 @@ jobs:
         working-directory: typescript
         run: pnpm typecheck
 
-      - name: Create and push tag
-        run: |
-          git tag "ts-keychain-v${{ steps.version.outputs.version }}"
-          git push origin "ts-keychain-v${{ steps.version.outputs.version }}"
-
       - name: Publish to npm
         if: ${{ github.event.inputs.publish-to-npm == 'true' }}
         working-directory: typescript/packages/keychain
         run: |
           echo "📦 Publishing @solana/keychain@${{ steps.version.outputs.version }} to npm..."
-          pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          npm publish --access public
+
+      - name: Create and push tag
+        run: |
+          git tag "ts-keychain-v${{ steps.version.outputs.version }}"
+          git push origin "ts-keychain-v${{ steps.version.outputs.version }}"
 
       - name: Create GitHub Release
         if: ${{ github.event.inputs.create-github-release == 'true' }}
