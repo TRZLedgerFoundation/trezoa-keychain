@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`solana-keychain` is a Rust library providing a unified interface for signing Solana transactions across multiple backend implementations. The architecture centers around a single `SolanaSigner` trait that abstracts over four different signing backends: Memory (local keypairs), Vault (HashiCorp), Privy, and Turnkey.
+`trezoa-keychain` is a Rust library providing a unified interface for signing Trezoa transactions across multiple backend implementations. The architecture centers around a single `TrezoaSigner` trait that abstracts over four different signing backends: Memory (local keypairs), Vault (HashiCorp), Privy, and Turnkey.
 
 ## Common Commands
 
@@ -64,9 +64,9 @@ git push
 
 ### Core Trait System
 
-The library is built around the `SolanaSigner` trait ([rust/src/traits.rs](rust/src/traits.rs)) which defines the interface all signers must implement:
+The library is built around the `TrezoaSigner` trait ([rust/src/traits.rs](rust/src/traits.rs)) which defines the interface all signers must implement:
 - `pubkey()` - Returns the signer's public key
-- `sign_transaction()` - Signs a Solana transaction, modifying it in place
+- `sign_transaction()` - Signs a Trezoa transaction, modifying it in place
 - `sign_message()` - Signs arbitrary bytes
 - `is_available()` - Checks if the signer backend is healthy/reachable
 

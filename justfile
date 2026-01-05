@@ -93,7 +93,7 @@ rust-test-integration:
 
     # Setup transit engine and test key
     vault secrets enable transit >/dev/null 2>&1 || true
-    vault write transit/restore/solana-test-key backup=@"src/tests/vault-test-key.b64" >/dev/null 2>&1 || true
+    vault write transit/restore/trezoa-test-key backup=@"src/tests/vault-test-key.b64" >/dev/null 2>&1 || true
 
     # Run integration tests
     echo "Running integration tests..."
@@ -166,10 +166,10 @@ ts-test-integration:
     done
 
     vault secrets enable transit >/dev/null 2>&1 || true
-    vault write transit/restore/solana-test-key backup=@"../rust/src/tests/vault-test-key.b64" >/dev/null 2>&1 || true
+    vault write transit/restore/trezoa-test-key backup=@"../rust/src/tests/vault-test-key.b64" >/dev/null 2>&1 || true
 
     echo "Running TypeScript integration tests..."
-    pnpm -F @solana/keychain-fireblocks -F @solana/keychain-privy -F @solana/keychain-turnkey -F @solana/keychain-vault test:integration
+    pnpm -F @trezoa/keychain-fireblocks -F @trezoa/keychain-privy -F @trezoa/keychain-turnkey -F @trezoa/keychain-vault test:integration
 
 # ===========================================================
 # ========================= Release =========================

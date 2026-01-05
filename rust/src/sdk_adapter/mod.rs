@@ -1,6 +1,6 @@
-//! SDK adapter layer for supporting multiple Solana SDK versions
+//! SDK adapter layer for supporting multiple Trezoa SDK versions
 //!
-//! This module provides a unified interface over Solana SDK v2 and v3,
+//! This module provides a unified interface over Trezoa SDK v2 and v3,
 //! abstracting away breaking changes between versions.
 
 #[cfg(feature = "sdk-v2")]

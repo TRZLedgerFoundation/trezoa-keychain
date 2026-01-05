@@ -5,7 +5,7 @@ mod types;
 
 use crate::sdk_adapter::{Pubkey, Signature, Transaction};
 pub use crate::traits::SignedTransaction;
-use crate::{error::SignerError, traits::SolanaSigner, transaction_util::TransactionUtil};
+use crate::{error::SignerError, traits::TrezoaSigner, transaction_util::TransactionUtil};
 use base64::{engine::general_purpose::STANDARD, Engine};
 use std::str::FromStr;
 use types::{
@@ -46,12 +46,12 @@ pub struct FireblocksSignerConfig {
     pub api_key: String,
     pub private_key_pem: String,
     pub vault_account_id: String,
-    /// Asset ID (default: "SOL", use "SOL_TEST" for devnet)
+    /// Asset ID (default: "TRZ", use "TRZ_TEST" for devnet)
     pub asset_id: Option<String>,
     pub api_base_url: Option<String>,
     pub poll_interval_ms: Option<u64>,
     pub max_poll_attempts: Option<u32>,
-    /// Use PROGRAM_CALL operation for transaction signing (auto-broadcasts to Solana).
+    /// Use PROGRAM_CALL operation for transaction signing (auto-broadcasts to Trezoa).
     /// Default: false (uses RAW signing)
     pub use_program_call: Option<bool>,
 }
@@ -69,7 +69,7 @@ impl FireblocksSigner {
             api_key: config.api_key,
             private_key_pem: config.private_key_pem,
             vault_account_id: config.vault_account_id,
-            asset_id: config.asset_id.unwrap_or_else(|| "SOL".to_string()),
+            asset_id: config.asset_id.unwrap_or_else(|| "TRZ".to_string()),
             public_key: Pubkey::default(),
             api_base_url: config
                 .api_base_url
@@ -383,7 +383,7 @@ impl FireblocksSigner {
         transaction: &mut Transaction,
     ) -> Result<SignedTransaction, SignerError> {
         let signature = if self.use_program_call {
-            // PROGRAM_CALL: signs and auto-broadcasts to Solana
+            // PROGRAM_CALL: signs and auto-broadcasts to Trezoa
             self.sign_with_program_call(transaction).await?
         } else {
             // RAW (default): sign the message bytes, caller broadcasts
@@ -424,7 +424,7 @@ impl FireblocksSigner {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for FireblocksSigner {
+impl TrezoaSigner for FireblocksSigner {
     fn pubkey(&self) -> Pubkey {
         self.public_key
     }
@@ -497,7 +497,7 @@ p6B5CCtpBPgD01Vm+bT/JQ==
             api_key: "test-api-key".to_string(),
             private_key_pem: TEST_RSA_KEY.to_string(),
             vault_account_id: "test-vault-id".to_string(),
-            asset_id: "SOL".to_string(),
+            asset_id: "TRZ".to_string(),
             public_key: Pubkey::default(),
             api_base_url: base_url.to_string(),
             client: reqwest::Client::new(),
@@ -512,7 +512,7 @@ p6B5CCtpBPgD01Vm+bT/JQ==
             api_key: "test-api-key".to_string(),
             private_key_pem: TEST_RSA_KEY.to_string(),
             vault_account_id: "test-vault-id".to_string(),
-            asset_id: "SOL".to_string(),
+            asset_id: "TRZ".to_string(),
             public_key: Pubkey::from_str(TEST_PUBKEY).unwrap(),
             api_base_url: base_url.to_string(),
             client: reqwest::Client::new(),
@@ -527,7 +527,7 @@ p6B5CCtpBPgD01Vm+bT/JQ==
             api_key: "test-api-key".to_string(),
             private_key_pem: TEST_RSA_KEY.to_string(),
             vault_account_id: "test-vault-id".to_string(),
-            asset_id: "SOL".to_string(),
+            asset_id: "TRZ".to_string(),
             public_key: Pubkey::from_str(TEST_PUBKEY).unwrap(),
             api_base_url: base_url.to_string(),
             client: reqwest::Client::new(),
@@ -549,7 +549,7 @@ p6B5CCtpBPgD01Vm+bT/JQ==
             max_poll_attempts: None,
             use_program_call: None,
         });
-        assert_eq!(signer.asset_id, "SOL");
+        assert_eq!(signer.asset_id, "TRZ");
         assert_eq!(signer.public_key, Pubkey::default());
         assert!(!signer.use_program_call); // Default is RAW (matching other signers)
     }
@@ -561,7 +561,7 @@ p6B5CCtpBPgD01Vm+bT/JQ==
 
         Mock::given(method("GET"))
             .and(path(
-                "/v1/vault/accounts/test-vault-id/SOL/addresses_paginated",
+                "/v1/vault/accounts/test-vault-id/TRZ/addresses_paginated",
             ))
             .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({
                 "addresses": [{ "address": TEST_PUBKEY }]
@@ -582,7 +582,7 @@ p6B5CCtpBPgD01Vm+bT/JQ==
 
         Mock::given(method("GET"))
             .and(path(
-                "/v1/vault/accounts/test-vault-id/SOL/addresses_paginated",
+                "/v1/vault/accounts/test-vault-id/TRZ/addresses_paginated",
             ))
             .respond_with(ResponseTemplate::new(401))
             .expect(1)

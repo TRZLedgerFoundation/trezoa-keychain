@@ -1,10 +1,10 @@
-import solanaConfig from '@solana/eslint-config-solana';
+import trezoaConfig from '@trezoa/eslint-config-trezoa';
 
 export default [
   {
     ignores: ['**/dist/**', '**/node_modules/**', '**/*.tsbuildinfo', '**/__tests__/**'],
   },
-  ...solanaConfig,
+  ...trezoaConfig,
   {
     languageOptions: {
       parserOptions: {

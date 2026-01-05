@@ -1,14 +1,14 @@
-import { Address, assertIsAddress } from '@solana/addresses';
-import { getBase64Decoder, getBase64Encoder, getUtf8Encoder } from '@solana/codecs-strings';
+import { Address, assertIsAddress } from '@trezoa/addresses';
+import { getBase64Decoder, getBase64Encoder, getUtf8Encoder } from '@trezoa/codecs-strings';
 import {
     createSignatureDictionary,
     extractSignatureFromWireTransaction,
     SignerErrorCode,
-    SolanaSigner,
+    TrezoaSigner,
     throwSignerError,
-} from '@solana/keychain-core';
-import { SignatureBytes } from '@solana/keys';
-import { SignableMessage, SignatureDictionary } from '@solana/signers';
+} from '@trezoa/keychain-core';
+import { SignatureBytes } from '@trezoa/keys';
+import { SignableMessage, SignatureDictionary } from '@trezoa/signers';
 import {
     Base64EncodedWireTransaction,
     getBase64EncodedWireTransaction,
@@ -16,7 +16,7 @@ import {
     TransactionMessageBytesBase64,
     TransactionWithinSizeLimit,
     TransactionWithLifetime,
-} from '@solana/transactions';
+} from '@trezoa/transactions';
 
 import {
     SignatureBytesBase64,
@@ -48,7 +48,7 @@ export interface PrivySignerConfig {
  *
  * Note: Must initialize with create() to fetch the public key
  */
-export class PrivySigner<TAddress extends string = string> implements SolanaSigner<TAddress> {
+export class PrivySigner<TAddress extends string = string> implements TrezoaSigner<TAddress> {
     readonly address!: Address<TAddress>;
     private readonly appId: string;
     private readonly appSecret: string;

@@ -11,7 +11,7 @@ mod tests {
 
     use super::*;
     use crate::test_util::create_test_transaction;
-    use crate::traits::SolanaSigner;
+    use crate::traits::TrezoaSigner;
     use crate::vault::VaultSigner;
     use std::env;
 

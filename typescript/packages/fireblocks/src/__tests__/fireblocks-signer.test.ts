@@ -1,6 +1,6 @@
-import { generateKeyPairSigner } from '@solana/signers';
+import { generateKeyPairSigner } from '@trezoa/signers';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { assertIsSolanaSigner } from '@solana/keychain-core';
+import { assertIsTrezoaSigner } from '@trezoa/keychain-core';
 
 import { FireblocksSigner } from '../fireblocks-signer.js';
 import type { FireblocksSignerConfig } from '../types.js';
@@ -99,7 +99,7 @@ describe('FireblocksSigner', () => {
                 apiKey: TEST_API_KEY,
                 privateKeyPem: TEST_RSA_PRIVATE_KEY,
                 vaultAccountId: TEST_VAULT_ACCOUNT_ID,
-                assetId: 'SOL_TEST',
+                assetId: 'TRZ_TEST',
             });
 
             expect(signer).toBeDefined();
@@ -124,7 +124,7 @@ describe('FireblocksSigner', () => {
             await signer.init();
 
             expect(signer.address).toBe(keyPair.address);
-            assertIsSolanaSigner(signer);
+            assertIsTrezoaSigner(signer);
         });
 
         it('should throw error on API failure during init', async () => {

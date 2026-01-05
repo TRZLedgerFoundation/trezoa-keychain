@@ -1,6 +1,6 @@
-import { generateKeyPairSigner } from '@solana/signers';
+import { generateKeyPairSigner } from '@trezoa/signers';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { assertIsSolanaSigner } from '@solana/keychain-core';
+import { assertIsTrezoaSigner } from '@trezoa/keychain-core';
 
 import { AwsKmsSigner } from '../aws-kms-signer.js';
 import type { AwsKmsSignerConfig } from '../types.js';
@@ -62,7 +62,7 @@ describe('AwsKmsSigner', () => {
             const signer = new AwsKmsSigner(config);
 
             expect(signer.address).toBe(keyPair.address);
-            assertIsSolanaSigner(signer);
+            assertIsTrezoaSigner(signer);
             expect(signer.signMessages).toBeDefined();
             expect(signer.signTransactions).toBeDefined();
             expect(signer.isAvailable).toBeDefined();
@@ -106,7 +106,7 @@ describe('AwsKmsSigner', () => {
                     keyId: TEST_KEY_ID,
                     publicKey: 'invalid-key',
                 });
-            }).toThrow('Invalid Solana public key format');
+            }).toThrow('Invalid Trezoa public key format');
         });
 
         it('should validate requestDelayMs', async () => {

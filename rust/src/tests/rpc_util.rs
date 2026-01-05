@@ -2,7 +2,7 @@ use crate::sdk_adapter::Hash;
 use std::error::Error;
 use std::str::FromStr;
 
-/// Fetch latest blockhash from a real Solana RPC endpoint
+/// Fetch latest blockhash from a real Trezoa RPC endpoint
 pub async fn get_rpc_blockhash(rpc_url: &str) -> Result<Hash, Box<dyn Error>> {
     let client = reqwest::Client::new();
 

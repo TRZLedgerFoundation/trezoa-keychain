@@ -1,9 +1,9 @@
 import { DescribeKeyCommand, KMSClient, MessageType, SignCommand, SigningAlgorithmSpec } from '@aws-sdk/client-kms';
-import { Address, assertIsAddress } from '@solana/addresses';
-import { createSignatureDictionary, SignerErrorCode, SolanaSigner, throwSignerError } from '@solana/keychain-core';
-import { SignatureBytes } from '@solana/keys';
-import { SignableMessage, SignatureDictionary } from '@solana/signers';
-import { Transaction, TransactionWithinSizeLimit, TransactionWithLifetime } from '@solana/transactions';
+import { Address, assertIsAddress } from '@trezoa/addresses';
+import { createSignatureDictionary, SignerErrorCode, TrezoaSigner, throwSignerError } from '@trezoa/keychain-core';
+import { SignatureBytes } from '@trezoa/keys';
+import { SignableMessage, SignatureDictionary } from '@trezoa/signers';
+import { Transaction, TransactionWithinSizeLimit, TransactionWithLifetime } from '@trezoa/transactions';
 
 import type { AwsCredentials, AwsKmsSignerConfig } from './types.js';
 
@@ -19,10 +19,10 @@ import type { AwsCredentials, AwsKmsSignerConfig } from './types.js';
  * aws kms create-key \
  *   --key-spec ECC_NIST_EDWARDS25519 \
  *   --key-usage SIGN_VERIFY \
- *   --description "Solana signing key"
+ *   --description "Trezoa signing key"
  * ```
  */
-export class AwsKmsSigner<TAddress extends string = string> implements SolanaSigner<TAddress> {
+export class AwsKmsSigner<TAddress extends string = string> implements TrezoaSigner<TAddress> {
     readonly address: Address<TAddress>;
     private readonly keyId: string;
     private readonly client: KMSClient;
@@ -47,7 +47,7 @@ export class AwsKmsSigner<TAddress extends string = string> implements SolanaSig
         } catch (error) {
             throwSignerError(SignerErrorCode.CONFIG_ERROR, {
                 cause: error,
-                message: 'Invalid Solana public key format',
+                message: 'Invalid Trezoa public key format',
             });
         }
 

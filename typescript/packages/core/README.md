@@ -1,23 +1,23 @@
-# @solana/keychain-core
+# @trezoa/keychain-core
 
-Core interfaces and utilities for building external Solana signers.
+Core interfaces and utilities for building external Trezoa signers.
 
 ## Installation
 
 ```bash
-pnpm add @solana/keychain-core
+pnpm add @trezoa/keychain-core
 ```
 
 ## What's Included
 
 ### Interfaces
 
-**`SolanaSigner`** - Unified interface that all signer implementations extend:
+**`TrezoaSigner`** - Unified interface that all signer implementations extend:
 
 ```typescript
-import { SolanaSigner } from '@solana/keychain-core';
+import { TrezoaSigner } from '@trezoa/keychain-core';
 
-interface SolanaSigner {
+interface TrezoaSigner {
     address: Address;
     isAvailable(): Promise<boolean>;
     signMessages(messages: readonly SignableMessage[]): Promise<readonly SignatureDictionary[]>;
@@ -28,7 +28,7 @@ interface SolanaSigner {
 ### Error Handling
 
 ```typescript
-import { SignerError, SignerErrorCode, throwSignerError } from '@solana/keychain-core';
+import { SignerError, SignerErrorCode, throwSignerError } from '@trezoa/keychain-core';
 
 // Check error type
 if (error instanceof SignerError) {
@@ -60,7 +60,7 @@ throwSignerError(SignerErrorCode.SIGNING_FAILED, {
 **`extractSignatureFromWireTransaction`** - Extract a specific signer's signature from a signed transaction:
 
 ```typescript
-import { extractSignatureFromWireTransaction } from '@solana/keychain-core';
+import { extractSignatureFromWireTransaction } from '@trezoa/keychain-core';
 
 // When a remote API returns a fully signed base64 transaction, we need to extract the signature to use Kit's native methods (which rely on .signTransactions to return a SignatureDictionary)
 const signedTx = await remoteApi.signTransaction(...);
@@ -73,7 +73,7 @@ const sigDict = extractSignatureFromWireTransaction({
 **`createSignatureDictionary`** - Create a signature dictionary from raw signature bytes:
 
 ```typescript
-import { createSignatureDictionary } from '@solana/keychain-core';
+import { createSignatureDictionary } from '@trezoa/keychain-core';
 
 const sigDict = createSignatureDictionary({
     signature: signatureBytes,
@@ -83,12 +83,12 @@ const sigDict = createSignatureDictionary({
 
 ## Usage
 
-This package is typically used as a dependency when building custom signer implementations. See [@solana/keychain-privy](https://www.npmjs.com/package/@solana/keychain-privy) for an example implementation.
+This package is typically used as a dependency when building custom signer implementations. See [@trezoa/keychain-privy](https://www.npmjs.com/package/@trezoa/keychain-privy) for an example implementation.
 
 ```typescript
-import { SolanaSigner, SignerErrorCode, throwSignerError } from '@solana/keychain-core';
+import { TrezoaSigner, SignerErrorCode, throwSignerError } from '@trezoa/keychain-core';
 
-class MyCustomSigner implements SolanaSigner {
+class MyCustomSigner implements TrezoaSigner {
     readonly address: Address;
 
     async isAvailable(): Promise<boolean> {
@@ -107,18 +107,18 @@ class MyCustomSigner implements SolanaSigner {
 
 ## Type Guards
 
-**`isSolanaSigner`** - Check if a value is a SolanaSigner:
+**`isTrezoaSigner`** - Check if a value is a TrezoaSigner:
 
 ```typescript
-import { isSolanaSigner } from '@solana/keychain-core';
+import { isTrezoaSigner } from '@trezoa/keychain-core';
 
-const isSigner = isSolanaSigner(value); // true or false
+const isSigner = isTrezoaSigner(value); // true or false
 ```
 
-**`assertIsSolanaSigner`** - Assert that a value is a SolanaSigner:
+**`assertIsTrezoaSigner`** - Assert that a value is a TrezoaSigner:
 
 ```typescript
-import { assertIsSolanaSigner } from '@solana/keychain-core';
+import { assertIsTrezoaSigner } from '@trezoa/keychain-core';
 
-assertIsSolanaSigner(value); // void (throws if not a SolanaSigner)
+assertIsTrezoaSigner(value); // void (throws if not a TrezoaSigner)
 ```

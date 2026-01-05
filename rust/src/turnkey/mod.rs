@@ -4,7 +4,7 @@ mod types;
 
 use crate::sdk_adapter::{Pubkey, Signature, Transaction};
 pub use crate::traits::SignedTransaction;
-use crate::{error::SignerError, traits::SolanaSigner, transaction_util::TransactionUtil};
+use crate::{error::SignerError, traits::TrezoaSigner, transaction_util::TransactionUtil};
 use base64::Engine;
 use p256::ecdsa::signature::Signer as P256Signer;
 use std::str::FromStr;
@@ -39,7 +39,7 @@ impl TurnkeySigner {
     /// * `api_private_key` - Turnkey API private key (hex-encoded)
     /// * `organization_id` - Turnkey organization ID
     /// * `private_key_id` - Turnkey private key ID
-    /// * `public_key` - Solana public key (base58-encoded)
+    /// * `public_key` - Trezoa public key (base58-encoded)
     pub fn new(
         api_public_key: String,
         api_private_key: String,
@@ -228,7 +228,7 @@ impl TurnkeySigner {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for TurnkeySigner {
+impl TrezoaSigner for TurnkeySigner {
     fn pubkey(&self) -> Pubkey {
         self.public_key
     }

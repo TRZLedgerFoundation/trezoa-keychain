@@ -1,11 +1,11 @@
-# @solana/keychain-privy
+# @trezoa/keychain-privy
 
-Privy-based signer for Solana transactions using Privy's wallet API.
+Privy-based signer for Trezoa transactions using Privy's wallet API.
 
 ## Installation
 
 ```bash
-pnpm add @solana/keychain-privy
+pnpm add @trezoa/keychain-privy
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ pnpm add @solana/keychain-privy
 ### Create and Initialize
 
 ```typescript
-import { PrivySigner } from '@solana/keychain-privy';
+import { PrivySigner } from '@trezoa/keychain-privy';
 
 // Create and initialize the signer (fetches public key from Privy API)
 const signer = await PrivySigner.create({
@@ -28,7 +28,7 @@ console.log('Signer address:', signer.address);
 ### Sign Messages
 
 ```typescript
-import { createSignableMessage } from '@solana/signers';
+import { createSignableMessage } from '@trezoa/signers';
 
 const message = createSignableMessage('Hello, Privy!');
 const [signatures] = await signer.signMessages([message]);
@@ -71,7 +71,7 @@ Creates and initializes a new PrivySigner instance.
 - `signMessages(messages)`: Signs one or more messages
 - `signTransactions(transactions)`: Signs one or more transactions
 - `isAvailable()`: Checks if the Privy API is reachable
-- `address`: Read-only property containing the signer's Solana address
+- `address`: Read-only property containing the signer's Trezoa address
 
 ## How It Works
 

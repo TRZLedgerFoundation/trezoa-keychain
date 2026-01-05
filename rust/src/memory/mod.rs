@@ -5,7 +5,7 @@ mod keypair_util;
 use crate::{
     error::SignerError,
     sdk_adapter::keypair_from_bytes,
-    traits::{SignedTransaction, SolanaSigner},
+    traits::{SignedTransaction, TrezoaSigner},
     transaction_util::TransactionUtil,
 };
 
@@ -14,7 +14,7 @@ use crate::sdk_adapter::{
 };
 use keypair_util::KeypairUtil;
 
-/// A Solana-based signer that uses an in-memory keypair
+/// A Trezoa-based signer that uses an in-memory keypair
 pub struct MemorySigner {
     keypair: Keypair,
 }
@@ -28,7 +28,7 @@ impl std::fmt::Debug for MemorySigner {
 }
 
 impl MemorySigner {
-    /// Creates a new signer from a Solana keypair
+    /// Creates a new signer from a Trezoa keypair
     pub fn new(keypair: Keypair) -> Self {
         Self { keypair }
     }
@@ -56,7 +56,7 @@ impl MemorySigner {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for MemorySigner {
+impl TrezoaSigner for MemorySigner {
     fn pubkey(&self) -> Pubkey {
         keypair_pubkey(&self.keypair)
     }
@@ -123,12 +123,12 @@ mod tests {
     #[tokio::test]
     async fn test_sign_message() {
         let signer = create_test_signer();
-        let message = b"Hello Solana!";
+        let message = b"Hello Trezoa!";
         let signature = signer.sign_message(message).await;
 
         assert!(signature.is_ok());
         let sig = signature.unwrap();
-        // Solana signatures are 64 bytes
+        // Trezoa signatures are 64 bytes
         assert_eq!(sig.as_ref().len(), 64);
     }
 

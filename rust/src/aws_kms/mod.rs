@@ -2,7 +2,7 @@
 
 use crate::sdk_adapter::{Pubkey, Signature, Transaction};
 use crate::traits::SignedTransaction;
-use crate::{error::SignerError, traits::SolanaSigner, transaction_util::TransactionUtil};
+use crate::{error::SignerError, traits::TrezoaSigner, transaction_util::TransactionUtil};
 use aws_config::Region;
 use aws_sdk_kms::{
     primitives::Blob,
@@ -16,11 +16,11 @@ use std::str::FromStr;
 /// # Example
 ///
 /// ```rust,ignore
-/// use solana_keychain::KmsSigner;
+/// use trezoa_keychain::KmsSigner;
 ///
 /// let signer = KmsSigner::new(
 ///     "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012".to_string(),
-///     "YourSolanaPublicKeyBase58".to_string(),
+///     "YourTrezoaPublicKeyBase58".to_string(),
 ///     Some("us-east-1".to_string()),
 /// ).await?;
 /// ```
@@ -48,7 +48,7 @@ impl KmsSigner {
     /// # Arguments
     ///
     /// * `key_id` - AWS KMS key ID or ARN (must be an ECC_NIST_EDWARDS25519 key)
-    /// * `public_key` - Solana public key (base58-encoded)
+    /// * `public_key` - Trezoa public key (base58-encoded)
     /// * `region` - Optional AWS region (defaults to default region from AWS config)
     ///
     /// # Errors
@@ -88,7 +88,7 @@ impl KmsSigner {
     ///
     /// * `client` - Pre-configured AWS KMS client
     /// * `key_id` - AWS KMS key ID or ARN (must be an ECC_NIST_EDWARDS25519 key)
-    /// * `public_key` - Solana public key (base58-encoded)
+    /// * `public_key` - Trezoa public key (base58-encoded)
     pub fn with_client(
         client: KmsClient,
         key_id: String,
@@ -196,7 +196,7 @@ impl KmsSigner {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for KmsSigner {
+impl TrezoaSigner for KmsSigner {
     fn pubkey(&self) -> Pubkey {
         self.public_key
     }

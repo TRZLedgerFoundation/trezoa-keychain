@@ -1,8 +1,8 @@
 {
-  "name": "@solana/keychain-workspace",
+  "name": "@trezoa/keychain-workspace",
   "version": "0.1.0",
   "private": true,
-  "description": "Unified Solana transaction signing across multiple backends",
+  "description": "Unified Trezoa transaction signing across multiple backends",
   "type": "module",
   "engines": {
     "node": ">=18",
@@ -21,8 +21,8 @@
     "typecheck": "pnpm -r typecheck"
   },
   "devDependencies": {
-    "@solana/eslint-config-solana": "^5.0.0",
-    "@solana/prettier-config-solana": "0.0.5",
+    "@trezoa/eslint-config-trezoa": "^6.0.0",
+    "@trezoa/prettier-config-trezoa": "^0.0.6",
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
@@ -33,6 +33,6 @@
     "typescript": "^5.9.3",
     "vitest": "^4.0.10"
   },
-  "prettier": "@solana/prettier-config-solana",
+  "prettier": "@trezoa/prettier-config-trezoa",
   "packageManager": "pnpm@10.14.0"
 }

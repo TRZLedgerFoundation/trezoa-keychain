@@ -8,7 +8,7 @@ export interface FireblocksSignerConfig {
     /** Fireblocks API key (used in X-API-Key header) */
     apiKey: string;
 
-    /** Asset ID (default: "SOL", use "SOL_TEST" for devnet) */
+    /** Asset ID (default: "TRZ", use "TRZ_TEST" for devnet) */
     assetId?: string;
 
     /** Maximum polling attempts (default: 60) */
@@ -25,7 +25,7 @@ export interface FireblocksSignerConfig {
 
     /**
      * Use PROGRAM_CALL operation for signing transactions (default: false)
-     * When true, Fireblocks signs and broadcasts the transaction to Solana.
+     * When true, Fireblocks signs and broadcasts the transaction to Trezoa.
      * When false, uses RAW signing (signs message bytes only, caller broadcasts).
      */
     useProgramCall?: boolean;

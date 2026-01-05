@@ -54,7 +54,7 @@ jobs:
           FIREBLOCKS_API_KEY: ${{ secrets.FIREBLOCKS_API_KEY }}
           FIREBLOCKS_PRIVATE_KEY_PEM: ${{ secrets.FIREBLOCKS_PRIVATE_KEY_PEM }}
           FIREBLOCKS_VAULT_ACCOUNT_ID: ${{ secrets.FIREBLOCKS_VAULT_ACCOUNT_ID }}
-          SOLANA_RPC_URL: https://api.devnet.solana.com
+          TRZANA_RPC_URL: https://api.devnet.trezoa.com
         run: |
           if [ "${{ matrix.sdk_version }}" = "v2" ]; then
             cargo test --no-default-features --features all,sdk-v2,unsafe-debug,integration-tests tests::${{ matrix.test }}::

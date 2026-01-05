@@ -1,6 +1,6 @@
-//! Framework-agnostic Solana signing abstractions
+//! Framework-agnostic Trezoa signing abstractions
 //!
-//! This crate provides a unified interface for signing Solana transactions
+//! This crate provides a unified interface for signing Trezoa transactions
 //! with multiple backend implementations (memory, Vault, Privy, Turnkey, AWS KMS).
 //!
 //! # Features
@@ -15,8 +15,8 @@
 //! - `all`: Enable all signer backends
 //!
 //! ## SDK Version Selection
-//! - `sdk-v2` (default): Use Solana SDK v2.3.x
-//! - `sdk-v3`: Use Solana SDK v3.x
+//! - `sdk-v2` (default): Use Trezoa SDK v2.3.x
+//! - `sdk-v3`: Use Trezoa SDK v3.x
 //!
 //! **Note**: Only one SDK version can be enabled at a time.
 
@@ -49,7 +49,7 @@ pub mod fireblocks;
 
 // Re-export core types
 pub use error::SignerError;
-pub use traits::SolanaSigner;
+pub use traits::TrezoaSigner;
 
 // Re-export signer types
 #[cfg(feature = "memory")]
@@ -181,7 +181,7 @@ impl Signer {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for Signer {
+impl TrezoaSigner for Signer {
     fn pubkey(&self) -> sdk_adapter::Pubkey {
         match self {
             #[cfg(feature = "memory")]

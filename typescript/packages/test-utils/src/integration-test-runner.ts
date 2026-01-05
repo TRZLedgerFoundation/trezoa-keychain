@@ -1,4 +1,4 @@
-import type { SignatureBytes, SignaturesMap } from '@solana/kit';
+import type { SignatureBytes, SignaturesMap } from '@trezoa/kit';
 import {
     appendTransactionMessageInstructions,
     createSignableMessage,
@@ -8,8 +8,8 @@ import {
     setTransactionMessageFeePayerSigner,
     setTransactionMessageLifetimeUsingBlockhash,
     signTransactionMessageWithSigners,
-} from '@solana/kit';
-import { getAddMemoInstruction } from '@solana-program/memo';
+} from '@trezoa/kit';
+import { getAddMemoInstruction } from '@trezoa-program/memo';
 
 import { airdropLamports, formatSimulationResult, LiteSVM, truncateAddress } from './litesvm-helpers.js';
 import type { SignerTestConfig, TestContext, TestOptions, TestScenario, TestSigner } from './types.js';

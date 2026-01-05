@@ -1,12 +1,12 @@
 {
-    "name": "@solana/keychain-vault",
-    "author": "Solana Foundation",
+    "name": "@trezoa/keychain-vault",
+    "author": "TRZ Ledger Foundation",
     "version": "0.1.0",
-    "description": "HashiCorp Vault signer for Solana transactions",
+    "description": "HashiCorp Vault signer for Trezoa transactions",
     "license": "MIT",
-    "repository": "https://github.com/solana-foundation/solana-keychain",
+    "repository": "https://github.com/trzledgerfoundation/trezoa-keychain",
     "keywords": [
-        "solana",
+        "trezoa",
         "signing",
         "wallet",
         "vault",
@@ -38,20 +38,20 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
-        "@solana/keychain-core": "workspace:*",
-        "@solana/addresses": "^5.0.0",
-        "@solana/codecs-core": "^5.0.0",
-        "@solana/codecs-strings": "^5.0.0",
-        "@solana/keys": "^5.0.0",
-        "@solana/signers": "^5.0.0",
-        "@solana/transactions": "^5.0.0"
+        "@trezoa/keychain-core": "workspace:*",
+        "@trezoa/addresses": "^5.1.1",
+        "@trezoa/codecs-core": "^5.1.0",
+        "@trezoa/codecs-strings": "^5.1.0",
+        "@trezoa/keys": "^5.1.0",
+        "@trezoa/signers": "^5.1.0",
+        "@trezoa/transactions": "^5.1.0"
     },
     "publishConfig": {
         "access": "public"
     },
     "devDependencies": {
-        "@solana/keychain-test-utils": "workspace:*",
-        "@solana/nominal-types": "^5.0.0",
+        "@trezoa/keychain-test-utils": "workspace:*",
+        "@trezoa/nominal-types": "^5.1.0",
         "dotenv": "^17.2.3"
     }
 }

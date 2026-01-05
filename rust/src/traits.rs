@@ -1,4 +1,4 @@
-//! Core trait definitions for Solana signers
+//! Core trait definitions for Trezoa signers
 
 use async_trait::async_trait;
 
@@ -7,16 +7,16 @@ use crate::sdk_adapter::{Pubkey, Signature, Transaction};
 
 pub type SignedTransaction = (String, Signature);
 
-/// Trait for signing Solana transactions
+/// Trait for signing Trezoa transactions
 ///
 /// All signer implementations must implement this trait to provide
 /// a unified interface for transaction signing.
 #[async_trait]
-pub trait SolanaSigner: Send + Sync {
+pub trait TrezoaSigner: Send + Sync {
     /// Get the public key of this signer
     fn pubkey(&self) -> Pubkey;
 
-    /// Sign a Solana transaction
+    /// Sign a Trezoa transaction
     ///
     /// # Arguments
     ///

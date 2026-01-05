@@ -1,7 +1,7 @@
 pub const FIREBLOCKS_API_KEY: &str = "FIREBLOCKS_API_KEY";
 pub const FIREBLOCKS_PRIVATE_KEY_PEM: &str = "FIREBLOCKS_PRIVATE_KEY_PEM";
 pub const FIREBLOCKS_VAULT_ACCOUNT_ID: &str = "FIREBLOCKS_VAULT_ACCOUNT_ID";
-pub const SOLANA_RPC_URL: &str = "SOLANA_RPC_URL";
+pub const TRZANA_RPC_URL: &str = "TRZANA_RPC_URL";
 
 #[cfg(feature = "fireblocks")]
 #[cfg(test)]
@@ -12,7 +12,7 @@ mod tests {
     use crate::fireblocks::{FireblocksSigner, FireblocksSignerConfig};
     use crate::test_util::{create_test_transaction, create_test_transaction_with_recipient};
     use crate::tests::rpc_util::get_rpc_blockhash;
-    use crate::traits::SolanaSigner;
+    use crate::traits::TrezoaSigner;
     use std::env;
 
     async fn get_signer() -> FireblocksSigner {
@@ -29,7 +29,7 @@ mod tests {
             api_key,
             private_key_pem,
             vault_account_id,
-            asset_id: Some("SOL_TEST".to_string()),
+            asset_id: Some("TRZ_TEST".to_string()),
             api_base_url: Some("https://api.fireblocks.io".to_string()),
             poll_interval_ms: None,
             max_poll_attempts: None,
@@ -72,8 +72,8 @@ mod tests {
         let mut transaction = create_test_transaction_with_recipient(&pubkey, &pubkey);
 
         // PROGRAM_CALL needs real devnet blockhash
-        let rpc_url = env::var(SOLANA_RPC_URL)
-            .unwrap_or_else(|_| "https://api.devnet.solana.com".to_string());
+        let rpc_url = env::var(TRZANA_RPC_URL)
+            .unwrap_or_else(|_| "https://api.devnet.trezoa.com".to_string());
 
         transaction.message.recent_blockhash = get_rpc_blockhash(&rpc_url)
             .await

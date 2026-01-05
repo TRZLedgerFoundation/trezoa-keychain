@@ -1,4 +1,4 @@
-import type { Address, MessagePartialSigner, TransactionSigner } from '@solana/kit';
+import type { Address, MessagePartialSigner, TransactionSigner } from '@trezoa/kit';
 
 import type { LiteSVM } from './litesvm-helpers.js';
 

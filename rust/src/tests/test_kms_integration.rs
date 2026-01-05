@@ -21,7 +21,7 @@ mod tests {
     use super::*;
     use crate::aws_kms::KmsSigner;
     use crate::test_util::create_test_transaction;
-    use crate::traits::SolanaSigner;
+    use crate::traits::TrezoaSigner;
     use std::env;
 
     async fn get_signer() -> KmsSigner {

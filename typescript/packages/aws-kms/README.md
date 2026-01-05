@@ -1,11 +1,11 @@
-# @solana/keychain-aws-kms
+# @trezoa/keychain-aws-kms
 
-AWS KMS-based signer for Solana transactions using EdDSA (Ed25519) signing.
+AWS KMS-based signer for Trezoa transactions using EdDSA (Ed25519) signing.
 
 ## Installation
 
 ```bash
-pnpm add @solana/keychain-aws-kms @aws-sdk/client-kms
+pnpm add @trezoa/keychain-aws-kms @aws-sdk/client-kms
 ```
 
 ## Prerequisites
@@ -61,13 +61,13 @@ The AWS SDK looks for credentials in this order:
 
 ## Creating an AWS KMS Key
 
-Use the AWS CLI to create a key suitable for Solana signing:
+Use the AWS CLI to create a key suitable for Trezoa signing:
 
 ```bash
 aws kms create-key \
   --key-spec ECC_NIST_EDWARDS25519 \
   --key-usage SIGN_VERIFY \
-  --description "Solana signing key"
+  --description "Trezoa signing key"
 ```
 
 Or use the AWS Console:
@@ -83,11 +83,11 @@ Or use the AWS Console:
 ### Basic Example
 
 ```typescript
-import { AwsKmsSigner } from '@solana/keychain-aws-kms';
+import { AwsKmsSigner } from '@trezoa/keychain-aws-kms';
 
 const signer = new AwsKmsSigner({
     keyId: 'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012',
-    publicKey: 'YourSolanaPublicKeyBase58',
+    publicKey: 'YourTrezoaPublicKeyBase58',
     region: 'us-east-1', // Optional, defaults to AWS config default
 });
 
@@ -104,7 +104,7 @@ const signatures = await signer.signTransactions([transaction]);
 ```typescript
 const signer = new AwsKmsSigner({
     keyId: 'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012',
-    publicKey: 'YourSolanaPublicKeyBase58',
+    publicKey: 'YourTrezoaPublicKeyBase58',
     region: 'us-east-1',
     credentials: {
         accessKeyId: 'your-access-key-id',
@@ -119,7 +119,7 @@ const signer = new AwsKmsSigner({
 ```typescript
 const signer = new AwsKmsSigner({
     keyId: 'arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012',
-    publicKey: 'YourSolanaPublicKeyBase58',
+    publicKey: 'YourTrezoaPublicKeyBase58',
     requestDelayMs: 100, // 100ms delay between concurrent requests
 });
 ```
@@ -136,7 +136,7 @@ new AwsKmsSigner(config: AwsKmsSignerConfig)
 
 **Config Options:**
 - `keyId` (required): AWS KMS key ID or ARN
-- `publicKey` (required): Solana public key (base58-encoded)
+- `publicKey` (required): Trezoa public key (base58-encoded)
 - `region` (optional): AWS region (defaults to AWS config default)
 - `requestDelayMs` (optional): Delay in ms between concurrent requests (default: 0)
 - `credentials` (optional): AWS credentials object

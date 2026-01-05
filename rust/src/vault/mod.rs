@@ -2,7 +2,7 @@
 
 use crate::sdk_adapter::{Pubkey, Signature, Transaction};
 use crate::traits::SignedTransaction;
-use crate::{error::SignerError, traits::SolanaSigner, transaction_util::TransactionUtil};
+use crate::{error::SignerError, traits::TrezoaSigner, transaction_util::TransactionUtil};
 use base64::{engine::general_purpose::STANDARD, Engine as _};
 use reqwest::Client;
 use serde_json::json;
@@ -139,7 +139,7 @@ impl VaultSigner {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for VaultSigner {
+impl TrezoaSigner for VaultSigner {
     fn pubkey(&self) -> Pubkey {
         self.pubkey
     }

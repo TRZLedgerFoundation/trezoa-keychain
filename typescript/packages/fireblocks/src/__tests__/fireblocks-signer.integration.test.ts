@@ -1,13 +1,13 @@
 import {
     appendTransactionMessageInstructions,
-    createSolanaRpc,
+    createTrezoaRpc,
     createTransactionMessage,
     pipe,
     setTransactionMessageFeePayerSigner,
     setTransactionMessageLifetimeUsingBlockhash,
     signTransactionMessageWithSigners,
-} from '@solana/kit';
-import { getAddMemoInstruction } from '@solana-program/memo';
+} from '@trezoa/kit';
+import { getAddMemoInstruction } from '@trezoa-program/memo';
 import { config } from 'dotenv';
 import { describe, expect, it } from 'vitest';
 
@@ -24,7 +24,7 @@ function hasRequiredEnvVars(): boolean {
 async function createFireblocksSigner(): Promise<FireblocksSigner> {
     const signer = new FireblocksSigner({
         apiKey: process.env.FIREBLOCKS_API_KEY!,
-        assetId: process.env.FIREBLOCKS_ASSET_ID ?? 'SOL_TEST',
+        assetId: process.env.FIREBLOCKS_ASSET_ID ?? 'TRZ_TEST',
         privateKeyPem: process.env.FIREBLOCKS_PRIVATE_KEY_PEM!,
         useProgramCall: true,
         vaultAccountId: process.env.FIREBLOCKS_VAULT_ACCOUNT_ID!,
@@ -38,10 +38,10 @@ describe('FireblocksSigner Integration', () => {
         'signs transactions with PROGRAM_CALL',
         async () => {
             const signer = await createFireblocksSigner();
-            const rpcUrl = process.env.SOLANA_RPC_URL ?? 'https://api.devnet.solana.com';
+            const rpcUrl = process.env.TRZANA_RPC_URL ?? 'https://api.devnet.trezoa.com';
 
             // Get real blockhash from devnet
-            const rpc = createSolanaRpc(rpcUrl);
+            const rpc = createTrezoaRpc(rpcUrl);
             const {
                 value: { blockhash, lastValidBlockHeight },
             } = await rpc.getLatestBlockhash().send();
@@ -54,7 +54,7 @@ describe('FireblocksSigner Integration', () => {
                 tx => setTransactionMessageLifetimeUsingBlockhash({ blockhash, lastValidBlockHeight }, tx),
             );
 
-            // Sign via Fireblocks (PROGRAM_CALL broadcasts to Solana)
+            // Sign via Fireblocks (PROGRAM_CALL broadcasts to Trezoa)
             const signed = await signTransactionMessageWithSigners(transaction);
 
             // Verify signature returned

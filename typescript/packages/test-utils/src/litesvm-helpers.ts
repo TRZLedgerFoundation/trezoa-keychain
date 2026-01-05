@@ -7,7 +7,7 @@ import {
     getTransactionCodec,
     Transaction,
     TransactionMessageBytes,
-} from '@solana/kit';
+} from '@trezoa/kit';
 import {
     Account,
     Clock,
@@ -32,7 +32,7 @@ import {
     TransactionErrorProgramExecutionTemporarilyRestricted,
 } from 'litesvm/dist/internal.js';
 
-type SolanaKitAccount = {
+type TrezoaKitAccount = {
     // Keep as bigint
     data: Uint8Array;
     executable: boolean; // Convert bytes to Address string
@@ -47,7 +47,7 @@ type BlockhashLifetimeConstraint = Readonly<{
     lastValidBlockHeight: bigint;
 }>;
 
-function toAccountInfo(acc: Account): SolanaKitAccount {
+function toAccountInfo(acc: Account): TrezoaKitAccount {
     return {
         data: acc.data(),
         executable: acc.executable(),
@@ -57,7 +57,7 @@ function toAccountInfo(acc: Account): SolanaKitAccount {
     };
 }
 
-function fromAccountInfo(acc: SolanaKitAccount): Account {
+function fromAccountInfo(acc: TrezoaKitAccount): Account {
     return new Account(acc.lamports, acc.data, addressToBytes(acc.owner), acc.executable, acc.rentEpoch);
 }
 
@@ -81,7 +81,7 @@ interface PublicKeyLike {
     toBytes(): Uint8Array;
 }
 
-function convertWeb3AddressAndAccount(tuple: [PublicKeyLike, Account]): [Address<string>, SolanaKitAccount] {
+function convertWeb3AddressAndAccount(tuple: [PublicKeyLike, Account]): [Address<string>, TrezoaKitAccount] {
     const [pubkey, account] = tuple;
     return [bytesToAddress(pubkey.toBytes()), toAccountInfo(account)];
 }
@@ -94,7 +94,7 @@ export class SimulatedTransactionInfo {
     meta(): TransactionMetadata {
         return this.inner.meta();
     }
-    postAccounts(): [Address<string>, SolanaKitAccount][] {
+    postAccounts(): [Address<string>, TrezoaKitAccount][] {
         return this.inner.postAccounts().map(convertWeb3AddressAndAccount);
     }
 }
@@ -189,7 +189,7 @@ export class LiteSVM {
     }
 
     /**
-     * Adds the standard SPL programs.
+     * Adds the standard TPL programs.
      * @returns The modified LiteSVM instance
      */
     withDefaultPrograms(): LiteSVM {
@@ -242,7 +242,7 @@ export class LiteSVM {
      * @param address - The account address to look up.
      * @returns The account object, if the account exists.
      */
-    getAccount(address: Address): SolanaKitAccount | null {
+    getAccount(address: Address): TrezoaKitAccount | null {
         const codec = getAddressCodec();
         const inner = this.inner.getAccount(codec.encode(address) as Uint8Array);
         if (!inner) return null;
@@ -260,7 +260,7 @@ export class LiteSVM {
      * @param address - The address to write to.
      * @param account - The account object to write.
      */
-    setAccount(address: Address, account: SolanaKitAccount) {
+    setAccount(address: Address, account: TrezoaKitAccount) {
         this.inner.setAccount(addressToBytes(address), fromAccountInfo(account));
     }
 

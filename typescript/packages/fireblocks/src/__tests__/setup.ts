@@ -1,4 +1,4 @@
-import { SignerTestConfig, TestScenario } from '@solana/keychain-test-utils';
+import { SignerTestConfig, TestScenario } from '@trezoa/keychain-test-utils';
 import { FireblocksSigner } from '../fireblocks-signer';
 
 const SIGNER_TYPE = 'fireblocks';
@@ -9,7 +9,7 @@ async function createFireblocksSigner(): Promise<FireblocksSigner> {
         apiKey: process.env.FIREBLOCKS_API_KEY!,
         assetId: process.env.FIREBLOCKS_ASSET_ID,
         privateKeyPem: process.env.FIREBLOCKS_PRIVATE_KEY_PEM!,
-        // Use PROGRAM_CALL for transactions (broadcasts to Solana through Fireblocks)
+        // Use PROGRAM_CALL for transactions (broadcasts to Trezoa through Fireblocks)
         useProgramCall: true,
         vaultAccountId: process.env.FIREBLOCKS_VAULT_ACCOUNT_ID!,
     });

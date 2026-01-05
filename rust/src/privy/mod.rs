@@ -5,7 +5,7 @@ mod types;
 use crate::sdk_adapter::{Pubkey, Signature, Transaction};
 use crate::traits::SignedTransaction;
 use crate::transaction_util::TransactionUtil;
-use crate::{error::SignerError, traits::SolanaSigner};
+use crate::{error::SignerError, traits::TrezoaSigner};
 use base64::{engine::general_purpose::STANDARD, Engine};
 use std::str::FromStr;
 use types::{SignMessageParams, SignMessageRequest, SignMessageResponse, WalletResponse};
@@ -94,7 +94,7 @@ impl PrivySigner {
 
         let wallet_info: WalletResponse = response.json().await?;
 
-        // For Solana wallets, the address is the public key
+        // For Trezoa wallets, the address is the public key
         Pubkey::from_str(&wallet_info.address).map_err(|_| {
             SignerError::InvalidPublicKey("Invalid public key from Privy API".to_string())
         })
@@ -167,7 +167,7 @@ impl PrivySigner {
 }
 
 #[async_trait::async_trait]
-impl SolanaSigner for PrivySigner {
+impl TrezoaSigner for PrivySigner {
     fn pubkey(&self) -> Pubkey {
         self.public_key
     }
@@ -240,7 +240,7 @@ mod tests {
             .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({
                 "id": "test-wallet-id",
                 "address": pubkey_str,
-                "chain_type": "solana"
+                "chain_type": "trezoa"
             })))
             .expect(1)
             .mount(&mock_server)
@@ -396,7 +396,7 @@ mod tests {
             .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({
                 "id": "test-wallet-id",
                 "address": "not-a-valid-pubkey",
-                "chain_type": "solana"
+                "chain_type": "trezoa"
             })))
             .expect(1)
             .mount(&mock_server)

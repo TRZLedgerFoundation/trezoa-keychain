@@ -1,14 +1,14 @@
-import { Address, assertIsAddress } from '@solana/addresses';
-import { getBase16Decoder, getBase16Encoder, getBase64Encoder } from '@solana/codecs-strings';
-import { createSignatureDictionary, SignerErrorCode, SolanaSigner, throwSignerError } from '@solana/keychain-core';
-import { SignatureBytes } from '@solana/keys';
-import { SignableMessage, SignatureDictionary } from '@solana/signers';
+import { Address, assertIsAddress } from '@trezoa/addresses';
+import { getBase16Decoder, getBase16Encoder, getBase64Encoder } from '@trezoa/codecs-strings';
+import { createSignatureDictionary, SignerErrorCode, TrezoaSigner, throwSignerError } from '@trezoa/keychain-core';
+import { SignatureBytes } from '@trezoa/keys';
+import { SignableMessage, SignatureDictionary } from '@trezoa/signers';
 import {
     getBase64EncodedWireTransaction,
     Transaction,
     TransactionWithinSizeLimit,
     TransactionWithLifetime,
-} from '@solana/transactions';
+} from '@trezoa/transactions';
 
 import { ApiKeyStamper } from './stamper.js';
 import type { ActivityResponse, SignRequest, SignTransactionRequest, WhoAmIRequest, WhoAmIResponse } from './types.js';
@@ -25,9 +25,9 @@ export interface TurnkeySignerConfig {
     apiPublicKey: string;
     /** Turnkey organization ID */
     organizationId: string;
-    /** Turnkey private key ID to use for signing Solana transactions */
+    /** Turnkey private key ID to use for signing Trezoa transactions */
     privateKeyId: string;
-    /** Solana public key (base58) corresponding to the private key ID */
+    /** Trezoa public key (base58) corresponding to the private key ID */
     publicKey: string;
     /** Optional delay in ms between concurrent signing requests to avoid rate limits (default: 0) */
     requestDelayMs?: number;
@@ -36,9 +36,9 @@ export interface TurnkeySignerConfig {
 /**
  * Turnkey-based signer using Turnkey's API
  *
- * Uses P256 ECDSA for API authentication (X-Stamp header) and Ed25519 for Solana signing
+ * Uses P256 ECDSA for API authentication (X-Stamp header) and Ed25519 for Trezoa signing
  */
-export class TurnkeySigner<TAddress extends string = string> implements SolanaSigner<TAddress> {
+export class TurnkeySigner<TAddress extends string = string> implements TrezoaSigner<TAddress> {
     readonly address: Address<TAddress>;
     private readonly apiBaseUrl: string;
     private readonly organizationId: string;
@@ -66,7 +66,7 @@ export class TurnkeySigner<TAddress extends string = string> implements SolanaSi
         } catch (error) {
             throwSignerError(SignerErrorCode.CONFIG_ERROR, {
                 cause: error,
-                message: 'Invalid Solana public key format',
+                message: 'Invalid Trezoa public key format',
             });
         }
 
@@ -244,7 +244,7 @@ export class TurnkeySigner<TAddress extends string = string> implements SolanaSi
             organizationId: this.organizationId,
             parameters: {
                 signWith: this.privateKeyId,
-                type: 'TRANSACTION_TYPE_SOLANA',
+                type: 'TRANSACTION_TYPE_TRZANA',
                 unsignedTransaction: hexTransaction,
             },
             timestampMs,
@@ -331,7 +331,7 @@ export class TurnkeySigner<TAddress extends string = string> implements SolanaSi
                 const signedTxBytes = hexToBytes(signedTransactionHex);
 
                 // Extract the signature from the signed transaction
-                // In Solana, signatures are at the beginning of the serialized transaction
+                // In Trezoa, signatures are at the beginning of the serialized transaction
                 // First byte is the signature count, then 64 bytes per signature
                 const signature = signedTxBytes.slice(1, 65) as SignatureBytes;
 

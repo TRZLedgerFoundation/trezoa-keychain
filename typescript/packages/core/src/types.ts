@@ -1,17 +1,17 @@
-import type { Address } from '@solana/addresses';
+import type { Address } from '@trezoa/addresses';
 import type {
     MessagePartialSigner,
     SignableMessage,
     SignatureDictionary,
     TransactionPartialSigner,
-} from '@solana/signers';
-import type { Transaction, TransactionWithinSizeLimit, TransactionWithLifetime } from '@solana/transactions';
+} from '@trezoa/signers';
+import type { Transaction, TransactionWithinSizeLimit, TransactionWithLifetime } from '@trezoa/transactions';
 
 /**
  * Unified signer interface that extends both transaction and message signers.
- * Provides both high-level (simple) and low-level (@solana/kit compatible) APIs.
+ * Provides both high-level (simple) and low-level (@trezoa/kit compatible) APIs.
  */
-export interface SolanaSigner<TAddress extends string = string>
+export interface TrezoaSigner<TAddress extends string = string>
     extends TransactionPartialSigner<TAddress>,
         MessagePartialSigner<TAddress> {
     /**
@@ -27,7 +27,7 @@ export interface SolanaSigner<TAddress extends string = string>
 
     /**
      * Signs multiple messages and returns signature dictionaries
-     * for @solana/kit signing compatibility.
+     * for @trezoa/kit signing compatibility.
      *
      * @param messages - Array of signable messages
      * @returns Array of signature dictionaries (address -> signature mapping)
@@ -36,7 +36,7 @@ export interface SolanaSigner<TAddress extends string = string>
 
     /**
      * Signs multiple transactions and returns signature dictionaries.
-     * for @solana/kit signing compatibility.
+     * for @trezoa/kit signing compatibility.
      *
      * @param transactions - Array of transactions to sign
      * @returns Array of signature dictionaries (address -> signature mapping)

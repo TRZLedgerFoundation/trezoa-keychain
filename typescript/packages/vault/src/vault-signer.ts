@@ -1,9 +1,9 @@
-import { Address, assertIsAddress } from '@solana/addresses';
-import { getBase64Decoder, getBase64Encoder } from '@solana/codecs-strings';
-import { createSignatureDictionary, SignerErrorCode, SolanaSigner, throwSignerError } from '@solana/keychain-core';
-import { SignatureBytes } from '@solana/keys';
-import { SignableMessage, SignatureDictionary } from '@solana/signers';
-import { Transaction, TransactionWithinSizeLimit, TransactionWithLifetime } from '@solana/transactions';
+import { Address, assertIsAddress } from '@trezoa/addresses';
+import { getBase64Decoder, getBase64Encoder } from '@trezoa/codecs-strings';
+import { createSignatureDictionary, SignerErrorCode, TrezoaSigner, throwSignerError } from '@trezoa/keychain-core';
+import { SignatureBytes } from '@trezoa/keys';
+import { SignableMessage, SignatureDictionary } from '@trezoa/signers';
+import { Transaction, TransactionWithinSizeLimit, TransactionWithLifetime } from '@trezoa/transactions';
 
 import type {
     VaultErrorResponse,
@@ -19,7 +19,7 @@ import type {
 export interface VaultSignerConfig {
     /** Name of the transit key in Vault */
     keyName: string;
-    /** Solana public key (base58) corresponding to the Vault key */
+    /** Trezoa public key (base58) corresponding to the Vault key */
     publicKey: string;
     /** Optional delay in ms between concurrent signing requests to avoid rate limits (default: 0) */
     requestDelayMs?: number;
@@ -35,7 +35,7 @@ export interface VaultSignerConfig {
  * The Vault key must be an ED25519 key created in the transit engine.
  * Example creation: `vault write transit/keys/my-key type=ed25519`
  */
-export class VaultSigner<TAddress extends string = string> implements SolanaSigner<TAddress> {
+export class VaultSigner<TAddress extends string = string> implements TrezoaSigner<TAddress> {
     readonly address: Address<TAddress>;
     private readonly vaultAddr: string;
     private readonly vaultToken: string;
@@ -61,7 +61,7 @@ export class VaultSigner<TAddress extends string = string> implements SolanaSign
         } catch (error) {
             throwSignerError(SignerErrorCode.CONFIG_ERROR, {
                 cause: error,
-                message: 'Invalid Solana public key format',
+                message: 'Invalid Trezoa public key format',
             });
         }
 

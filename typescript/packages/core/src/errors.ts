@@ -1,5 +1,5 @@
 /**
- * Custom error codes for solana-keychain, specific to this library
+ * Custom error codes for trezoa-keychain, specific to this library
  */
 export enum SignerErrorCode {
     INVALID_PRIVATE_KEY = 'SIGNER_INVALID_PRIVATE_KEY',
@@ -13,7 +13,7 @@ export enum SignerErrorCode {
     NOT_AVAILABLE = 'SIGNER_NOT_AVAILABLE',
     IO_ERROR = 'SIGNER_IO_ERROR',
     SIGNER_NOT_INITIALIZED = 'SIGNER_NOT_INITIALIZED',
-    EXPECTED_SOLANA_SIGNER = 'SIGNER_EXPECTED_SOLANA_SIGNER',
+    EXPECTED_TRZANA_SIGNER = 'SIGNER_EXPECTED_TRZANA_SIGNER',
 }
 
 /**

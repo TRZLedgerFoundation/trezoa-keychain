@@ -1,19 +1,19 @@
-# Adding New Signers to solana-keychain
+# Adding New Signers to trezoa-keychain
 
 ## Overview
 
-This guide is for wallet service providers and developers who want to integrate new key management solutions into the `solana-keychain` library. By adding your signer implementation, you'll enable Rust developers to use your service for secure Solana transaction signing through a unified interface.
+This guide is for wallet service providers and developers who want to integrate new key management solutions into the `trezoa-keychain` library. By adding your signer implementation, you'll enable Rust developers to use your service for secure Trezoa transaction signing through a unified interface.
 
 ## Architecture Overview
 
-The library uses a trait-based architecture where all signers implement the `SolanaSigner` trait defined in [src/traits.rs](../src/traits.rs). The library also provides a unified `Signer` enum that wraps all implementations, allowing runtime selection of signing backends while maintaining a consistent API.
+The library uses a trait-based architecture where all signers implement the `TrezoaSigner` trait defined in [src/traits.rs](../src/traits.rs). The library also provides a unified `Signer` enum that wraps all implementations, allowing runtime selection of signing backends while maintaining a consistent API.
 
 ## Step-by-Step Integration Guide
 
 ### Quick Integration Checklist
 
 - [ ] Create your signer module with implementation
-- [ ] Implement the `SolanaSigner` trait
+- [ ] Implement the `TrezoaSigner` trait
 - [ ] Add a feature flag in `Cargo.toml`
 - [ ] Update the `Signer` enum in `src/lib.rs`
 - [ ] Add comprehensive tests
@@ -27,7 +27,7 @@ Create a new directory under `src/` for your implementation:
 ```bash
 src/
 ├── your_service/
-│   ├── mod.rs      # Main implementation with SolanaSigner trait
+│   ├── mod.rs      # Main implementation with TrezoaSigner trait
 │   └── types.rs    # API request/response types (if needed)
 ```
 
@@ -38,8 +38,8 @@ In `src/your_service/mod.rs`, define your signer struct:
 ```rust
 //! YourService API signer integration
 
-use crate::{error::SignerError, traits::SolanaSigner};
-use solana_sdk::{pubkey::Pubkey, signature::Signature, transaction::Transaction};
+use crate::{error::SignerError, traits::TrezoaSigner};
+use trezoa_sdk::{pubkey::Pubkey, signature::Signature, transaction::Transaction};
 use std::str::FromStr;
 
 /// YourService-based signer using YourService's API
@@ -73,7 +73,7 @@ impl YourServiceSigner {
     /// * `api_key` - YourService API key
     /// * `api_secret` - YourService API secret
     /// * `wallet_id` - YourService wallet ID
-    /// * `public_key` - Base58-encoded Solana public key
+    /// * `public_key` - Base58-encoded Trezoa public key
     pub fn new(
         api_key: String,
         api_secret: String,
@@ -128,7 +128,7 @@ impl YourServiceSigner {
             .decode(&response_data.signature)
             .map_err(|e| SignerError::SerializationError(format!("Failed to decode signature: {e}")))?;
 
-        // 4. Convert to Solana signature (must be exactly 64 bytes)
+        // 4. Convert to Trezoa signature (must be exactly 64 bytes)
         let sig_array: [u8; 64] = sig_bytes
             .try_into()
             .map_err(|_| SignerError::SigningFailed("Invalid signature length".to_string()))?;
@@ -138,11 +138,11 @@ impl YourServiceSigner {
 }
 ```
 
-### Step 4: Implement the SolanaSigner Trait
+### Step 4: Implement the TrezoaSigner Trait
 
 ```rust
 #[async_trait::async_trait]
-impl SolanaSigner for YourServiceSigner {
+impl TrezoaSigner for YourServiceSigner {
     fn pubkey(&self) -> Pubkey {
         self.public_key
     }
@@ -259,8 +259,8 @@ impl Signer {
 
 // Update trait implementation
 #[async_trait::async_trait]
-impl SolanaSigner for Signer {
-    fn pubkey(&self) -> solana_sdk::pubkey::Pubkey {
+impl TrezoaSigner for Signer {
+    fn pubkey(&self) -> trezoa_sdk::pubkey::Pubkey {
         match self {
             // ... existing variants
             #[cfg(feature = "your_service")]
@@ -270,8 +270,8 @@ impl SolanaSigner for Signer {
 
     async fn sign_transaction(
         &self,
-        tx: &mut solana_sdk::transaction::Transaction,
-    ) -> Result<solana_sdk::signature::Signature, SignerError> {
+        tx: &mut trezoa_sdk::transaction::Transaction,
+    ) -> Result<trezoa_sdk::signature::Signature, SignerError> {
         match self {
             // ... existing variants
             #[cfg(feature = "your_service")]
@@ -282,7 +282,7 @@ impl SolanaSigner for Signer {
     async fn sign_message(
         &self,
         message: &[u8],
-    ) -> Result<solana_sdk::signature::Signature, SignerError> {
+    ) -> Result<trezoa_sdk::signature::Signature, SignerError> {
         match self {
             // ... existing variants
             #[cfg(feature = "your_service")]
@@ -308,7 +308,7 @@ Add tests to your module (at the bottom of `src/your_service/mod.rs`):
 #[cfg(test)]
 mod tests {
     use super::*;
-    use solana_sdk::{signature::Keypair, signer::Signer};
+    use trezoa_sdk::{signature::Keypair, signer::Signer};
     use wiremock::{
         matchers::{header, method, path},
         Mock, MockServer, ResponseTemplate,
@@ -403,7 +403,7 @@ Add usage example:
 ### YourService
 
 \```rust
-use solana_keychain::{Signer, SolanaSigner};
+use trezoa_keychain::{Signer, TrezoaSigner};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -527,11 +527,11 @@ Adds support for YourService as a signing backend. [Link to YourService Document
 - [X] Code compiles without warnings (`just build`)
 - [X] Code is formatted/linting passes (`just fmt`)
 - [X] Add comprehensive tests with wiremock - All tests pass (`just test`)
-- [X] Implemented SolanaSigner trait for YourServiceSigner
+- [X] Implemented TrezoaSigner trait for YourServiceSigner
 - [X] Added feature flag 'your_service'
 - [X] Added to README.md supported backends table
 
 Closes #1337
 ```
 
-Welcome to the solana-keychain ecosystem! We're excited to have your key management solution as part of the library.
+Welcome to the trezoa-keychain ecosystem! We're excited to have your key management solution as part of the library.

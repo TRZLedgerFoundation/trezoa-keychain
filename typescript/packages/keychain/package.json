@@ -1,12 +1,12 @@
 {
-    "name": "@solana/keychain",
-    "author": "Solana Foundation",
+    "name": "@trezoa/keychain",
+    "author": "TRZ Ledger Foundation",
     "license": "MIT",
-    "repository": "https://github.com/solana-foundation/solana-keychain",
+    "repository": "https://github.com/trzledgerfoundation/trezoa-keychain",
     "version": "0.1.0",
-    "description": "Unified Solana transaction signing across multiple backends",
+    "description": "Unified Trezoa transaction signing across multiple backends",
     "keywords": [
-        "solana",
+        "trezoa",
         "signing",
         "wallet",
         "privy",
@@ -37,12 +37,12 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
-        "@solana/keychain-core": "workspace:*",
-        "@solana/keychain-aws-kms": "workspace:*",
-        "@solana/keychain-fireblocks": "workspace:*",
-        "@solana/keychain-privy": "workspace:*",
-        "@solana/keychain-turnkey": "workspace:*",
-        "@solana/keychain-vault": "workspace:*"
+        "@trezoa/keychain-core": "workspace:*",
+        "@trezoa/keychain-aws-kms": "workspace:*",
+        "@trezoa/keychain-fireblocks": "workspace:*",
+        "@trezoa/keychain-privy": "workspace:*",
+        "@trezoa/keychain-turnkey": "workspace:*",
+        "@trezoa/keychain-vault": "workspace:*"
     },
     "publishConfig": {
         "access": "public"

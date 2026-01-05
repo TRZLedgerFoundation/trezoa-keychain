@@ -56,7 +56,7 @@ describe('VaultSigner', () => {
                     ...mockConfig,
                     publicKey: 'invalid-key',
                 });
-            }).toThrow('Invalid Solana public key format');
+            }).toThrow('Invalid Trezoa public key format');
         });
 
         it('should remove trailing slash from vaultAddr', () => {
@@ -351,7 +351,7 @@ describe('VaultSigner', () => {
 
             // Create a mock transaction - this is simplified
             const mockTransaction = {
-                '"__transactionSize:@solana/kit"': 100,
+                '"__transactionSize:@trezoa/kit"': 100,
                 lifetimeConstraint: { blockhash: 'test', lastValidBlockHeight: 100n },
                 messageBytes: new Uint8Array([1, 2, 3, 4]),
                 signatures: {},

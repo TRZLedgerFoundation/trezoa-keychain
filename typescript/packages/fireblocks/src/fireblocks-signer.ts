@@ -1,14 +1,14 @@
-import { Address, assertIsAddress } from '@solana/addresses';
-import { getBase58Encoder } from '@solana/codecs-strings';
-import { createSignatureDictionary, SignerErrorCode, SolanaSigner, throwSignerError } from '@solana/keychain-core';
-import { SignatureBytes } from '@solana/keys';
-import { SignableMessage, SignatureDictionary } from '@solana/signers';
+import { Address, assertIsAddress } from '@trezoa/addresses';
+import { getBase58Encoder } from '@trezoa/codecs-strings';
+import { createSignatureDictionary, SignerErrorCode, TrezoaSigner, throwSignerError } from '@trezoa/keychain-core';
+import { SignatureBytes } from '@trezoa/keys';
+import { SignableMessage, SignatureDictionary } from '@trezoa/signers';
 import {
     getBase64EncodedWireTransaction,
     Transaction,
     TransactionWithinSizeLimit,
     TransactionWithLifetime,
-} from '@solana/transactions';
+} from '@trezoa/transactions';
 
 import { createJwt } from './jwt.js';
 import type {
@@ -21,15 +21,15 @@ import type {
 import { FireblocksTransactionStatus, TERMINAL_STATUSES } from './types.js';
 
 const DEFAULT_API_BASE_URL = 'https://api.fireblocks.io';
-const DEFAULT_ASSET_ID = 'SOL';
+const DEFAULT_ASSET_ID = 'TRZ';
 const DEFAULT_POLL_INTERVAL_MS = 1000;
 const DEFAULT_MAX_POLL_ATTEMPTS = 60;
 
 /**
- * Fireblocks-based signer for Solana transactions
+ * Fireblocks-based signer for Trezoa transactions
  *
- * Uses Fireblocks Raw Message Signing to sign Solana transactions and messages.
- * Requires a Fireblocks account with a Solana vault account configured.
+ * Uses Fireblocks Raw Message Signing to sign Trezoa transactions and messages.
+ * Requires a Fireblocks account with a Trezoa vault account configured.
  *
  * @example
  * ```typescript
@@ -41,7 +41,7 @@ const DEFAULT_MAX_POLL_ATTEMPTS = 60;
  * await signer.init();
  * ```
  */
-export class FireblocksSigner<TAddress extends string = string> implements SolanaSigner<TAddress> {
+export class FireblocksSigner<TAddress extends string = string> implements TrezoaSigner<TAddress> {
     private _address: Address<TAddress> | null = null;
     private readonly apiKey: string;
     private readonly privateKeyPem: string;
@@ -250,7 +250,7 @@ export class FireblocksSigner<TAddress extends string = string> implements Solan
 
     /**
      * Sign a transaction using Fireblocks PROGRAM_CALL operation
-     * This broadcasts the transaction to Solana through Fireblocks
+     * This broadcasts the transaction to Trezoa through Fireblocks
      */
     private async signWithProgramCall(
         transaction: Transaction & TransactionWithinSizeLimit & TransactionWithLifetime,

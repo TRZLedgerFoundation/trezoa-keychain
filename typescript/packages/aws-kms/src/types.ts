@@ -6,7 +6,7 @@ export interface AwsKmsSignerConfig {
     credentials?: AwsCredentials;
     /** AWS KMS key ID or ARN (must be an ECC_NIST_EDWARDS25519 key) */
     keyId: string;
-    /** Solana public key (base58) corresponding to the AWS KMS key */
+    /** Trezoa public key (base58) corresponding to the AWS KMS key */
     publicKey: string;
     /** Optional AWS region (defaults to default region from AWS config) */
     region?: string;

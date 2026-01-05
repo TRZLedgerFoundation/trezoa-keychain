@@ -1,11 +1,11 @@
 /**
  * Privy API request/response types
- * Docs: https://docs.privy.io/api-reference/wallets/solana/
+ * Docs: https://docs.privy.io/api-reference/wallets/trezoa/
  */
 
-import { Address } from '@solana/addresses';
-import { Brand, EncodedString } from '@solana/nominal-types';
-import { Base64EncodedWireTransaction, TransactionMessageBytesBase64 } from '@solana/transactions';
+import { Address } from '@trezoa/addresses';
+import { Brand, EncodedString } from '@trezoa/nominal-types';
+import { Base64EncodedWireTransaction, TransactionMessageBytesBase64 } from '@trezoa/transactions';
 
 export interface SignTransactionParams {
     encoding: 'base64';

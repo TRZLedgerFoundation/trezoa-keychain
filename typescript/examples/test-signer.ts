@@ -1,5 +1,5 @@
 /**
- * Manual test script for Solana signers with real API credentials
+ * Manual test script for Trezoa signers with real API credentials
  *
  * Supports multiple signer types via SIGNER_TYPE env var:
  *   - fireblocks
@@ -16,20 +16,20 @@
  *
  * Example AWS KMS args (Rust only):
  *   - AWS_KMS_KEY_ID: "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
- *   - AWS_KMS_PUBLIC_KEY: "YourSolanaPublicKeyBase58Here"
+ *   - AWS_KMS_PUBLIC_KEY: "YourTrezoaPublicKeyBase58Here"
  *   - AWS_KMS_REGION: "us-east-1" (optional, defaults to AWS config default region)
  */
 
-import { assertIsSolanaSigner, SolanaSigner } from '@solana/keychain-core';
-import { FireblocksSigner } from '@solana/keychain-fireblocks';
-import { PrivySigner } from '@solana/keychain-privy';
-import { TurnkeySigner } from '@solana/keychain-turnkey';
+import { assertIsTrezoaSigner, TrezoaSigner } from '@trezoa/keychain-core';
+import { FireblocksSigner } from '@trezoa/keychain-fireblocks';
+import { PrivySigner } from '@trezoa/keychain-privy';
+import { TurnkeySigner } from '@trezoa/keychain-turnkey';
 import {
     Address,
     airdropFactory,
     appendTransactionMessageInstructions,
-    createSolanaRpc,
-    createSolanaRpcSubscriptions,
+    createTrezoaRpc,
+    createTrezoaRpcSubscriptions,
     createTransactionMessage,
     assertIsFullySignedTransaction,
     lamports,
@@ -41,15 +41,15 @@ import {
     setTransactionMessageFeePayerSigner,
     setTransactionMessageLifetimeUsingBlockhash,
     signTransactionMessageWithSigners,
-    SolanaRpcApiFromTransport,
-    SolanaRpcSubscriptionsApi,
+    TrezoaRpcApiFromTransport,
+    TrezoaRpcSubscriptionsApi,
     assertIsTransactionWithBlockhashLifetime,
     getSignatureFromTransaction,
     generateKeyPairSigner,
     KeyPairSigner,
     assertIsKeyPairSigner,
-} from '@solana/kit';
-import { getAddMemoInstruction } from '@solana-program/memo';
+} from '@trezoa/kit';
+import { getAddMemoInstruction } from '@trezoa-program/memo';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' });
@@ -75,7 +75,7 @@ function logStatus(step: number, message: string) {
 
 interface SignerConfig {
     requiredEnvVars: string[];
-    create: () => Promise<SolanaSigner | KeyPairSigner>;
+    create: () => Promise<TrezoaSigner | KeyPairSigner>;
 }
 
 const SIGNER_CONFIGS: Record<SignerType, SignerConfig> = {
@@ -86,7 +86,7 @@ const SIGNER_CONFIGS: Record<SignerType, SignerConfig> = {
                 apiKey: process.env.FIREBLOCKS_API_KEY!,
                 privateKeyPem: process.env.FIREBLOCKS_PRIVATE_KEY_PEM!,
                 vaultAccountId: process.env.FIREBLOCKS_VAULT_ACCOUNT_ID!,
-                assetId: 'SOL_TEST',
+                assetId: 'TRZ_TEST',
                 apiBaseUrl: 'https://api.fireblocks.io',
             });
             await signer.init();
@@ -130,7 +130,7 @@ const SIGNER_CONFIGS: Record<SignerType, SignerConfig> = {
     //         // AWS KMS signer implementation would go here
     //         // Example args:
     //         //   key_id: process.env.AWS_KMS_KEY_ID! // e.g., "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
-    //         //   public_key: process.env.AWS_KMS_PUBLIC_KEY! // Solana public key (base58-encoded)
+    //         //   public_key: process.env.AWS_KMS_PUBLIC_KEY! // Trezoa public key (base58-encoded)
     //         //   region: process.env.AWS_KMS_REGION // Optional AWS region
     //         throw new Error('AWS KMS signer not yet implemented in TypeScript');
     //     },
@@ -145,7 +145,7 @@ const SIGNER_CONFIGS: Record<SignerType, SignerConfig> = {
 
 function validateEnv(signerType: SignerType) {
     const config = SIGNER_CONFIGS[signerType];
-    const missing = [...config.requiredEnvVars, 'SOLANA_RPC_URL', 'SOLANA_WS_URL'].filter(v => !process.env[v]);
+    const missing = [...config.requiredEnvVars, 'TRZANA_RPC_URL', 'TRZANA_WS_URL'].filter(v => !process.env[v]);
 
     if (missing.length > 0) {
         console.error(
@@ -156,7 +156,7 @@ function validateEnv(signerType: SignerType) {
     }
 }
 
-async function createSigner(signerType: SignerType): Promise<SolanaSigner | KeyPairSigner> {
+async function createSigner(signerType: SignerType): Promise<TrezoaSigner | KeyPairSigner> {
     const config = SIGNER_CONFIGS[signerType];
     return await config.create();
 }
@@ -181,7 +181,7 @@ async function main() {
         if (signerType === 'keypair') {
             assertIsKeyPairSigner(signer as KeyPairSigner);
         } else {
-            assertIsSolanaSigner(signer);
+            assertIsTrezoaSigner(signer);
             const available = await signer.isAvailable();
             console.log(`  ✓ Available: ${available}`);
 
@@ -196,8 +196,8 @@ async function main() {
     }
 
     console.log('  ✓ Signer is available');
-    const rpc = createSolanaRpc(process.env.SOLANA_RPC_URL!);
-    const rpcSubscriptions = createSolanaRpcSubscriptions(process.env.SOLANA_WS_URL!);
+    const rpc = createTrezoaRpc(process.env.TRZANA_RPC_URL!);
+    const rpcSubscriptions = createTrezoaRpcSubscriptions(process.env.TRZANA_WS_URL!);
     const sendAndConfirmTransaction = sendAndConfirmTransactionFactory({ rpc, rpcSubscriptions });
     await handleAirdrop({ rpc, rpcSubscriptions, address: signer.address });
 
@@ -249,11 +249,11 @@ async function handleAirdrop({
     rpcSubscriptions,
     address,
 }: {
-    rpc: Rpc<SolanaRpcApiFromTransport<RpcTransport>>;
-    rpcSubscriptions: RpcSubscriptions<SolanaRpcSubscriptionsApi>;
+    rpc: Rpc<TrezoaRpcApiFromTransport<RpcTransport>>;
+    rpcSubscriptions: RpcSubscriptions<TrezoaRpcSubscriptionsApi>;
     address: Address;
 }) {
-    if (process.env.SOLANA_SKIP_AIRDROP === 'true') {
+    if (process.env.TRZANA_SKIP_AIRDROP === 'true') {
         console.log('  ✓ Skipping airdrop');
         return;
     }

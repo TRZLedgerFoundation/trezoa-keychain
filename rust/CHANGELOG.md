@@ -20,5 +20,5 @@
 
 ### Refactoring
 
-- rename solana-signers to solana-keychain (#14)
+- rename trezoa-signers to trezoa-keychain (#14)
 

@@ -1,4 +1,4 @@
-name: Publish @solana/keychain (Manual)
+name: Publish @trezoa/keychain (Manual)
 
 on:
   workflow_dispatch:
@@ -26,7 +26,7 @@ concurrency:
 
 jobs:
   publish:
-    name: Publish @solana/keychain
+    name: Publish @trezoa/keychain
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PROVENANCE: true
@@ -93,7 +93,7 @@ jobs:
         if: ${{ github.event.inputs.publish-to-npm == 'true' }}
         working-directory: typescript/packages/keychain
         run: |
-          echo "📦 Publishing @solana/keychain@${{ steps.version.outputs.version }} to npm..."
+          echo "📦 Publishing @trezoa/keychain@${{ steps.version.outputs.version }} to npm..."
           npm publish --access public
 
       - name: Create and push tag
@@ -108,14 +108,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const tagName = `ts-keychain-v${{ steps.version.outputs.version }}`;
-            const releaseName = `@solana/keychain v${{ steps.version.outputs.version }}`;
+            const releaseName = `@trezoa/keychain v${{ steps.version.outputs.version }}`;
 
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: tagName,
               name: releaseName,
-              body: `Release of @solana/keychain v${{ steps.version.outputs.version }} (TypeScript)`,
+              body: `Release of @trezoa/keychain v${{ steps.version.outputs.version }} (TypeScript)`,
               draft: false,
               prerelease: false,
             });
@@ -124,14 +124,14 @@ jobs:
 
       - name: Publish summary
         run: |
-          echo "## 🎉 @solana/keychain Published" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 @trezoa/keychain Published" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Version**: \`${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "**Package**: \`@solana/keychain\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Package**: \`@trezoa/keychain\`" >> $GITHUB_STEP_SUMMARY
           echo "**Tag**: \`ts-keychain-v${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ github.event.inputs.publish-to-npm }}" == "true" ]; then
-            echo "✅ Published to npm: https://www.npmjs.com/package/@solana/keychain/v/${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            echo "✅ Published to npm: https://www.npmjs.com/package/@trezoa/keychain/v/${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           else
             echo "⏭️ Skipped npm publish (dry run)" >> $GITHUB_STEP_SUMMARY
           fi

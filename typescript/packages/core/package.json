@@ -1,12 +1,12 @@
 {
-    "name": "@solana/keychain-core",
-    "author": "Solana Foundation",
+    "name": "@trezoa/keychain-core",
+    "author": "TRZ Ledger Foundation",
     "license": "MIT",
-    "repository": "https://github.com/solana-foundation/solana-keychain",
+    "repository": "https://github.com/trzledgerfoundation/trezoa-keychain",
     "version": "0.1.0",
-    "description": "Core interfaces and types for external Solana signers",
+    "description": "Core interfaces and types for external Trezoa signers",
     "keywords": [
-        "solana",
+        "trezoa",
         "signing",
         "wallet",
         "privy",
@@ -34,12 +34,12 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
-        "@solana/addresses": "^5.0.0",
-        "@solana/codecs-core": "^5.0.0",
-        "@solana/codecs-strings": "^5.0.0",
-        "@solana/keys": "^5.0.0",
-        "@solana/signers": "^5.0.0",
-        "@solana/transactions": "^5.0.0"
+        "@trezoa/addresses": "^5.1.1",
+        "@trezoa/codecs-core": "^5.1.0",
+        "@trezoa/codecs-strings": "^5.1.0",
+        "@trezoa/keys": "^5.1.0",
+        "@trezoa/signers": "^5.1.0",
+        "@trezoa/transactions": "^5.1.0"
     },
     "publishConfig": {
         "access": "public"

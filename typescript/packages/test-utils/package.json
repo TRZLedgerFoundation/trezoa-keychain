@@ -1,15 +1,15 @@
 {
-    "name": "@solana/keychain-test-utils",
-    "author": "Solana Foundation",
+    "name": "@trezoa/keychain-test-utils",
+    "author": "TRZ Ledger Foundation",
     "license": "MIT",
-    "repository": "https://github.com/solana-foundation/solana-keychain",
+    "repository": "https://github.com/trzledgerfoundation/trezoa-keychain",
     "version": "0.1.0",
-    "description": "Shared testing utilities for Solana signer integration tests",
+    "description": "Shared testing utilities for Trezoa signer integration tests",
     "keywords": [
-        "solana",
+        "trezoa",
         "testing",
         "integration-tests",
-        "litesvm"
+        "trezoalitesvm"
     ],
     "type": "module",
     "sideEffects": false,
@@ -32,10 +32,10 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
-        "@solana-program/memo": "^0.10.0",
-        "@solana/keychain-core": "workspace:*",
-        "@solana/kit": "^5.0.0",
-        "litesvm": "^0.3.3"
+        "@trezoa/tpl-memo": "^0.2.5",
+        "@trezoa/keychain-core": "workspace:*",
+        "@trezoa/kit": "^5.1.0",
+        "trezoalitesvm": "^0.4.0"
     },
     "devDependencies": {
         "@types/node": "^24.10.1"

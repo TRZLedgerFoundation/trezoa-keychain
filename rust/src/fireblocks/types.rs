@@ -54,7 +54,7 @@ pub struct RawMessage {
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProgramCallExtraParameters {
-    /// Base64-encoded serialized Solana transaction
+    /// Base64-encoded serialized Trezoa transaction
     pub program_call_data: String,
 }
 

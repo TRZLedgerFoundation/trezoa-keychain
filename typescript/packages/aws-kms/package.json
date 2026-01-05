@@ -1,12 +1,12 @@
 {
-    "name": "@solana/keychain-aws-kms",
-    "author": "Solana Foundation",
+    "name": "@trezoa/keychain-aws-kms",
+    "author": "TRZ Ledger Foundation",
     "version": "0.1.0",
-    "description": "AWS KMS-based signer for Solana transactions using EdDSA (Ed25519)",
+    "description": "AWS KMS-based signer for Trezoa transactions using EdDSA (Ed25519)",
     "license": "MIT",
-    "repository": "https://github.com/solana-foundation/solana-keychain",
+    "repository": "https://github.com/trzledgerfoundation/trezoa-keychain",
     "keywords": [
-        "solana",
+        "trezoa",
         "signing",
         "wallet",
         "aws",
@@ -41,15 +41,15 @@
     },
     "dependencies": {
         "@aws-sdk/client-kms": "^3.700.0",
-        "@solana/keychain-core": "workspace:*",
-        "@solana/addresses": "^5.0.0",
-        "@solana/codecs-strings": "^5.0.0",
-        "@solana/keys": "^5.0.0",
-        "@solana/signers": "^5.0.0",
-        "@solana/transactions": "^5.0.0"
+        "@trezoa/keychain-core": "workspace:*",
+        "@trezoa/addresses": "^5.1.1",
+        "@trezoa/codecs-strings": "^5.1.0",
+        "@trezoa/keys": "^5.1.0",
+        "@trezoa/signers": "^5.1.0",
+        "@trezoa/transactions": "^5.1.0"
     },
     "devDependencies": {
-        "@solana/keychain-test-utils": "workspace:*",
+        "@trezoa/keychain-test-utils": "workspace:*",
         "dotenv": "^17.2.3"
     },
     "publishConfig": {

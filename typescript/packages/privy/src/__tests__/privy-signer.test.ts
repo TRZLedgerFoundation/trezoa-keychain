@@ -1,12 +1,12 @@
-import { generateKeyPair, signBytes } from '@solana/keys';
-import { createSignableMessage, createSignerFromKeyPair, generateKeyPairSigner } from '@solana/signers';
+import { generateKeyPair, signBytes } from '@trezoa/keys';
+import { createSignableMessage, createSignerFromKeyPair, generateKeyPairSigner } from '@trezoa/signers';
 import {
     Base64EncodedWireTransaction,
     Transaction,
     TransactionWithinSizeLimit,
     TransactionWithLifetime,
-} from '@solana/transactions';
-import { assertIsSolanaSigner } from '@solana/keychain-core';
+} from '@trezoa/transactions';
+import { assertIsTrezoaSigner } from '@trezoa/keychain-core';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PrivySigner } from '../privy-signer.js';
@@ -16,8 +16,8 @@ global.fetch = vi.fn();
 const MOCK_B64_WIRE_TX =
     'Af1fCRSrZ9ASprap8D3ZLPsbzeCs6uihvj/jfjm3UrAY72by5zKMRd7YAIbJCl9gyRHQbw+xdklET2ZNmZi3iA2AAQABAurnRuGN5bfL2osZZMdGlvL1qz8k0GbdLhiP1fICgkmsBUpTWpkpIQZNJOhxYNo4fHw1td28kruB5B+oQEEFRI1NhzEgE0w/YfwaeZi2Ns/mLoZvq2Sx5NVQg7Am7wrjGwEBAAxIZWxsbywgUHJpdnkA' as Base64EncodedWireTransaction;
 
-vi.mock('@solana/transactions', async () => {
-    const actual = await vi.importActual<typeof import('@solana/transactions')>('@solana/transactions');
+vi.mock('@trezoa/transactions', async () => {
+    const actual = await vi.importActual<typeof import('@trezoa/transactions')>('@trezoa/transactions');
     return {
         ...actual,
         getBase64EncodedWireTransaction: vi.fn(() => MOCK_B64_WIRE_TX),
@@ -44,7 +44,7 @@ describe('PrivySigner', () => {
             json: () =>
                 Promise.resolve({
                     address,
-                    chain_type: 'solana',
+                    chain_type: 'trezoa',
                     id: mockConfig.walletId,
                 }),
             ok: true,
@@ -80,7 +80,7 @@ describe('PrivySigner', () => {
             expect(signer.signTransactions).toBeDefined();
             expect(signer.isAvailable).toBeDefined();
             expect(typeof signer.address).toBe('string');
-            assertIsSolanaSigner(signer);
+            assertIsTrezoaSigner(signer);
         });
 
         it('sets address field correctly from API response', async () => {
@@ -166,7 +166,7 @@ describe('PrivySigner', () => {
                 (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
                     json: () =>
                         Promise.resolve({
-                            chain_type: 'solana',
+                            chain_type: 'trezoa',
                             id: mockConfig.walletId,
                             // missing address field
                         }),

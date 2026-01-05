@@ -48,7 +48,7 @@ export interface SignTransactionParameters {
     /** Turnkey private key ID to sign with */
     signWith: string;
     /** Transaction type */
-    type: 'TRANSACTION_TYPE_SOLANA';
+    type: 'TRANSACTION_TYPE_TRZANA';
     /** Raw unsigned transaction to be signed (hex-encoded) */
     unsignedTransaction: string;
 }

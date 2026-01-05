@@ -1,14 +1,14 @@
-# solana-keychain
+# trezoa-keychain
 
-**Flexible, framework-agnostic Solana transaction signing for Rust applications**
+**Flexible, framework-agnostic Trezoa transaction signing for Rust applications**
 
 > ⚠️ **SECURITY NOTICE**: This library has not been audited. Use at your own risk. Not recommended for production use with real funds without a thorough security review. The authors and contributors are not responsible for any loss of funds or damages resulting from the use of this library.
 
-`solana-keychain` provides a unified interface for signing Solana transactions with multiple backend implementations. Whether you need local keypairs for development, enterprise vault integration, or managed wallet services, this library offers a consistent API across all signing methods.
+`trezoa-keychain` provides a unified interface for signing Trezoa transactions with multiple backend implementations. Whether you need local keypairs for development, enterprise vault integration, or managed wallet services, this library offers a consistent API across all signing methods.
 
 ## Features
 
-- **Unified Interface**: Single `SolanaSigner` trait for all backends
+- **Unified Interface**: Single `TrezoaSigner` trait for all backends
 - **Async-First**: Built with `async/await` for modern Rust applications
 - **Modular**: Feature flags for zero-cost backend selection
 - **Type-Safe**: Compile-time guarantees and error handling
@@ -29,13 +29,13 @@
 ```toml
 [dependencies]
 # Basic usage (memory signer only)
-solana-keychain = "0.1"
+trezoa-keychain = "0.1"
 
 # With Vault support
-solana-keychain = { version = "0.1", features = ["vault"] }
+trezoa-keychain = { version = "0.1", features = ["vault"] }
 
 # All backends
-solana-keychain = { version = "0.1", features = ["all"] }
+trezoa-keychain = { version = "0.1", features = ["all"] }
 ```
 
 ## Quick Start
@@ -43,7 +43,7 @@ solana-keychain = { version = "0.1", features = ["all"] }
 ### Memory Signer (Local Development)
 
 ```rust
-use solana_keychain::{MemorySigner, SolanaSigner};
+use trezoa_keychain::{MemorySigner, TrezoaSigner};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -57,7 +57,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Public key: {}", pubkey);
 
     // Sign a message
-    let message = b"Hello Solana!";
+    let message = b"Hello Trezoa!";
     let signature = signer.sign_message(message).await?;
     println!("Signature: {}", signature);
 
@@ -68,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### AWS KMS Signer
 
 ```rust
-use solana_keychain::{KmsSigner, SolanaSigner};
+use trezoa_keychain::{KmsSigner, TrezoaSigner};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -76,12 +76,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Credentials are loaded from the AWS default credential chain
     let signer = KmsSigner::new(
         "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012".to_string(),
-        "YourSolanaPublicKeyBase58".to_string(),
+        "YourTrezoaPublicKeyBase58".to_string(),
         Some("us-east-1".to_string()), // Optional region
     ).await?;
 
     // Sign a message
-    let message = b"Hello Solana!";
+    let message = b"Hello Trezoa!";
     let signature = signer.sign_message(message).await?;
     println!("Signature: {}", signature);
 
@@ -110,7 +110,7 @@ The AWS KMS signer uses the **AWS default credential provider chain**. Credentia
 aws kms create-key \
   --key-spec ECC_NIST_EDWARDS25519 \
   --key-usage SIGN_VERIFY \
-  --description "Solana signing key"
+  --description "Trezoa signing key"
 ```
 
 Required IAM permissions:
@@ -127,15 +127,15 @@ Required IAM permissions:
 
 ## Core API
 
-All signers implement the `SolanaSigner` trait:
+All signers implement the `TrezoaSigner` trait:
 
 ```rust
 #[async_trait]
-pub trait SolanaSigner: Send + Sync {
+pub trait TrezoaSigner: Send + Sync {
     /// Get the public key of this signer
     fn pubkey(&self) -> Pubkey;
 
-    /// Sign a Solana transaction (modifies transaction in place)
+    /// Sign a Trezoa transaction (modifies transaction in place)
     async fn sign_transaction(&self, tx: &mut Transaction) -> Result<Signature, SignerError>;
 
     /// Sign arbitrary message bytes

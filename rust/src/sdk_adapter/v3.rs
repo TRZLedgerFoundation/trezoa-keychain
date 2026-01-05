@@ -1,17 +1,17 @@
-//! Adapter for Solana SDK v3.x
+//! Adapter for Trezoa SDK v3.x
 
-// Re-export core types from solana-sdk v3
+// Re-export core types from trezoa-sdk v3
 #[allow(unused_imports)]
-pub use solana_sdk_v3::hash::Hash;
+pub use trezoa_sdk_v3::hash::Hash;
 #[allow(unused_imports)]
-pub use solana_sdk_v3::instruction::{AccountMeta, Instruction};
+pub use trezoa_sdk_v3::instruction::{AccountMeta, Instruction};
 #[allow(unused_imports)]
-pub use solana_sdk_v3::message::Message;
-pub use solana_sdk_v3::pubkey::Pubkey;
-pub use solana_sdk_v3::signature::{Keypair, Signature};
+pub use trezoa_sdk_v3::message::Message;
+pub use trezoa_sdk_v3::pubkey::Pubkey;
+pub use trezoa_sdk_v3::signature::{Keypair, Signature};
 #[allow(unused_imports)]
-pub use solana_sdk_v3::signer::Signer;
-pub use solana_sdk_v3::transaction::Transaction;
+pub use trezoa_sdk_v3::signer::Signer;
+pub use trezoa_sdk_v3::transaction::Transaction;
 
 /// Parse a keypair from bytes (v3 adapter)
 pub fn keypair_from_bytes(bytes: &[u8]) -> Result<Keypair, String> {

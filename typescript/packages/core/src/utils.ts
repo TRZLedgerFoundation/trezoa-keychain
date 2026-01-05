@@ -1,11 +1,11 @@
-import { Address, assertIsAddress } from '@solana/addresses';
-import { getBase64Encoder } from '@solana/codecs-strings';
-import { SignatureBytes } from '@solana/keys';
-import { isMessagePartialSigner, isTransactionPartialSigner, SignatureDictionary } from '@solana/signers';
-import { Base64EncodedWireTransaction, getTransactionDecoder } from '@solana/transactions';
+import { Address, assertIsAddress } from '@trezoa/addresses';
+import { getBase64Encoder } from '@trezoa/codecs-strings';
+import { SignatureBytes } from '@trezoa/keys';
+import { isMessagePartialSigner, isTransactionPartialSigner, SignatureDictionary } from '@trezoa/signers';
+import { Base64EncodedWireTransaction, getTransactionDecoder } from '@trezoa/transactions';
 
 import { SignerErrorCode, throwSignerError } from './errors.js';
-import { SolanaSigner } from './types.js';
+import { TrezoaSigner } from './types.js';
 
 interface ExtractSignatureFromWireTransactionOptions {
     base64WireTransaction: Base64EncodedWireTransaction;
@@ -84,13 +84,13 @@ export function createSignatureDictionary({
 }
 
 /**
- * Checks if the given value is a SolanaSigner.
+ * Checks if the given value is a TrezoaSigner.
  * @param value - The value to check
- * @returns True if the value is a SolanaSigner, false otherwise
+ * @returns True if the value is a TrezoaSigner, false otherwise
  */
-export function isSolanaSigner<TAddress extends string>(value: {
+export function isTrezoaSigner<TAddress extends string>(value: {
     address: Address<TAddress>;
-}): value is SolanaSigner<TAddress> {
+}): value is TrezoaSigner<TAddress> {
     return (
         'address' in value &&
         'isAvailable' in value &&
@@ -100,15 +100,15 @@ export function isSolanaSigner<TAddress extends string>(value: {
 }
 
 /**
- * Asserts that the given value is a SolanaSigner, throwing an error if it is not.
+ * Asserts that the given value is a TrezoaSigner, throwing an error if it is not.
  * @param value - The value to check
- * @throws {SignerError} If the value is not a SolanaSigner
+ * @throws {SignerError} If the value is not a TrezoaSigner
  */
-export function assertIsSolanaSigner<TAddress extends string>(value: {
+export function assertIsTrezoaSigner<TAddress extends string>(value: {
     address: Address<TAddress>;
-}): asserts value is SolanaSigner<TAddress> {
-    if (!isSolanaSigner(value)) {
-        throwSignerError(SignerErrorCode.EXPECTED_SOLANA_SIGNER, {
+}): asserts value is TrezoaSigner<TAddress> {
+    if (!isTrezoaSigner(value)) {
+        throwSignerError(SignerErrorCode.EXPECTED_TRZANA_SIGNER, {
             address: value.address,
         });
     }

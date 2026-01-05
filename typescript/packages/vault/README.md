@@ -1,11 +1,11 @@
-# @solana/keychain-vault
+# @trezoa/keychain-vault
 
-HashiCorp Vault-based signer for Solana transactions using Vault's transit engine.
+HashiCorp Vault-based signer for Trezoa transactions using Vault's transit engine.
 
 ## Installation
 
 ```bash
-npm install @solana/keychain-vault
+npm install @trezoa/keychain-vault
 ```
 
 ## Prerequisites
@@ -21,10 +21,10 @@ npm install @solana/keychain-vault
 vault secrets enable transit
 
 # Create an ED25519 key
-vault write transit/keys/my-solana-key type=ed25519
+vault write transit/keys/my-trezoa-key type=ed25519
 
-# Export the public key to get your Solana address
-vault read -field=keys transit/export/signing-key/my-solana-key/1
+# Export the public key to get your Trezoa address
+vault read -field=keys transit/export/signing-key/my-trezoa-key/1
 ```
 
 ## Usage
@@ -32,13 +32,13 @@ vault read -field=keys transit/export/signing-key/my-solana-key/1
 ### Basic Setup
 
 ```typescript
-import { VaultSigner } from '@solana/keychain-vault';
+import { VaultSigner } from '@trezoa/keychain-vault';
 
 const signer = new VaultSigner({
     vaultAddr: 'https://vault.example.com',
     vaultToken: 'hvs.your-vault-token',
-    keyName: 'my-solana-key',
-    publicKey: 'your-solana-public-key-base58', // Must match the Vault key
+    keyName: 'my-trezoa-key',
+    publicKey: 'your-trezoa-public-key-base58', // Must match the Vault key
 });
 
 // Check if the signer is available
@@ -49,9 +49,9 @@ console.log('Vault signer available:', isAvailable);
 ### Signing Transactions
 
 ```typescript
-import { pipe } from '@solana/functional';
-import { createTransaction } from '@solana/transactions';
-import { signTransaction } from '@solana/signers';
+import { pipe } from '@trezoa/functional';
+import { createTransaction } from '@trezoa/transactions';
+import { signTransaction } from '@trezoa/signers';
 
 // Create your transaction
 const transaction = pipe(
@@ -66,9 +66,9 @@ const signedTransaction = await signTransaction([signer], transaction);
 ### Signing Messages
 
 ```typescript
-import { signMessage } from '@solana/signers';
+import { signMessage } from '@trezoa/signers';
 
-const message = new TextEncoder().encode('Hello, Solana!');
+const message = new TextEncoder().encode('Hello, Trezoa!');
 const signature = await signMessage([signer], message);
 ```
 
@@ -80,8 +80,8 @@ If you're signing multiple transactions/messages concurrently and want to avoid 
 const signer = new VaultSigner({
     vaultAddr: 'https://vault.example.com',
     vaultToken: 'hvs.your-vault-token',
-    keyName: 'my-solana-key',
-    publicKey: 'your-solana-public-key',
+    keyName: 'my-trezoa-key',
+    publicKey: 'your-trezoa-public-key',
     requestDelayMs: 100, // 100ms delay between concurrent requests
 });
 ```
@@ -95,7 +95,7 @@ const signer = new VaultSigner({
 | `vaultAddr` | `string` | Yes | Vault server address (e.g., https://vault.example.com) |
 | `vaultToken` | `string` | Yes | Vault authentication token |
 | `keyName` | `string` | Yes | Name of the transit key in Vault |
-| `publicKey` | `string` | Yes | Solana public key (base58) corresponding to the Vault key |
+| `publicKey` | `string` | Yes | Trezoa public key (base58) corresponding to the Vault key |
 | `requestDelayMs` | `number` | No | Delay in ms between concurrent signing requests (default: 0) |
 
 ## Vault Permissions
@@ -103,18 +103,18 @@ const signer = new VaultSigner({
 The Vault token must have the following permissions on the transit key:
 
 ```hcl
-path "transit/sign/my-solana-key" {
+path "transit/sign/my-trezoa-key" {
   capabilities = ["update"]
 }
 
-path "transit/keys/my-solana-key" {
+path "transit/keys/my-trezoa-key" {
   capabilities = ["read"]
 }
 ```
 
 ## Error Handling
 
-The signer will throw errors with specific codes from `@solana/keychain-core`:
+The signer will throw errors with specific codes from `@trezoa/keychain-core`:
 
 - `CONFIG_ERROR` - Invalid configuration
 - `HTTP_ERROR` - Network request failed
@@ -122,7 +122,7 @@ The signer will throw errors with specific codes from `@solana/keychain-core`:
 - `PARSING_ERROR` - Failed to parse Vault response
 
 ```typescript
-import { SignerErrorCode } from '@solana/keychain-core';
+import { SignerErrorCode } from '@trezoa/keychain-core';
 
 try {
     await signer.signMessages([message]);

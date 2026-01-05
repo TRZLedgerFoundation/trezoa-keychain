@@ -1,14 +1,14 @@
-# @solana/keychain (TypeScript)
+# @trezoa/keychain (TypeScript)
 
-TypeScript packages for building custom Solana signers compatible with `@solana/kit` and `@solana/signers`
+TypeScript packages for building custom Trezoa signers compatible with `@trezoa/kit` and `@trezoa/signers`
 
 ## Quick Example
 
 ```typescript
-import { SolanaSigner } from '@solana/keychain-core';
-import { signTransactionMessageWithSigners } from '@solana/signers';
+import { TrezoaSigner } from '@trezoa/keychain-core';
+import { signTransactionMessageWithSigners } from '@trezoa/signers';
 
-class MyCustomSigner implements SolanaSigner {
+class MyCustomSigner implements TrezoaSigner {
     readonly address: Address;
 
     async isAvailable(): Promise<boolean> {
@@ -38,12 +38,12 @@ const signedTx = await signTransactionMessageWithSigners(transaction);
 
 | Package | Description |
 |---------|-------------|
-| [@solana/keychain-core](./packages/core) | Core interfaces, types, and utilities for building custom signers |
-| [@solana/keychain-privy](./packages/privy) | Privy wallet signer implementation |
-| [@solana/keychain-turnkey](./packages/turnkey) | Turnkey wallet signer implementation |
-| [@solana/keychain-vault](./packages/vault) | HashiCorp Vault signer implementation |
-| [@solana/keychain-aws-kms](./packages/aws-kms) | AWS KMS signer implementation |
-| [@solana/keychain-fireblocks](./packages/fireblocks) | Fireblocks signer implementation |
+| [@trezoa/keychain-core](./packages/core) | Core interfaces, types, and utilities for building custom signers |
+| [@trezoa/keychain-privy](./packages/privy) | Privy wallet signer implementation |
+| [@trezoa/keychain-turnkey](./packages/turnkey) | Turnkey wallet signer implementation |
+| [@trezoa/keychain-vault](./packages/vault) | HashiCorp Vault signer implementation |
+| [@trezoa/keychain-aws-kms](./packages/aws-kms) | AWS KMS signer implementation |
+| [@trezoa/keychain-fireblocks](./packages/fireblocks) | Fireblocks signer implementation |
 
 ## Installation
 
@@ -51,12 +51,12 @@ const signedTx = await signTransactionMessageWithSigners(transaction);
 
 ```bash
 # Core package (required for building custom signers)
-pnpm add @solana/keychain-core
+pnpm add @trezoa/keychain-core
 
 # Signer implementations
-pnpm add @solana/keychain-aws-kms
-pnpm add @solana/keychain-fireblocks
-pnpm add @solana/keychain-privy
-pnpm add @solana/keychain-turnkey
-pnpm add @solana/keychain-vault
+pnpm add @trezoa/keychain-aws-kms
+pnpm add @trezoa/keychain-fireblocks
+pnpm add @trezoa/keychain-privy
+pnpm add @trezoa/keychain-turnkey
+pnpm add @trezoa/keychain-vault
 ```
