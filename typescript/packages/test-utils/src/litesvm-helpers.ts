@@ -22,7 +22,7 @@ import {
     SlotHistory,
     StakeHistory,
     TransactionMetadata,
-} from 'litesvm';
+} from 'trezoalitesvm';
 import {
     LiteSvm as LiteSVMInner,
     TransactionErrorDuplicateInstruction,
@@ -30,7 +30,7 @@ import {
     TransactionErrorInstructionError,
     TransactionErrorInsufficientFundsForRent,
     TransactionErrorProgramExecutionTemporarilyRestricted,
-} from 'litesvm/dist/internal.js';
+} from 'trezoalitesvm/dist/internal.js';
 
 type TrezoaKitAccount = {
     // Keep as bigint
