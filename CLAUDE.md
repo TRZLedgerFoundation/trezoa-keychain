@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## Trezoa Overview
 
 `trezoa-keychain` is a Rust library providing a unified interface for signing Trezoa transactions across multiple backend implementations. The architecture centers around a single `TrezoaSigner` trait that abstracts over four different signing backends: Memory (local keypairs), Vault (HashiCorp), Privy, and Turnkey.
 
@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Build and Test
 ```bash
-# Build the project (default features only - memory signer)
+# Build the trezoa (default features only - memory signer)
 cd rust && cargo build
 
 # Build with all features
@@ -28,7 +28,7 @@ cd rust && cargo test --features turnkey
 # Run a single test
 cd rust && cargo test test_name --all-features
 
-# Or use just (runs from project root)
+# Or use just (runs from trezoa root)
 just build
 just test
 ```

@@ -8,7 +8,7 @@ export default [
   {
     languageOptions: {
       parserOptions: {
-        project: ['./packages/*/tsconfig.json'],
+        trezoa: ['./packages/*/tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },

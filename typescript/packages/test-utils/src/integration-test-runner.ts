@@ -30,7 +30,7 @@ const ALL_SCENARIOS: TestScenario[] = ['signTransaction', 'signMessage', 'simula
  * Use this in your test files with your test framework's assertions
  *
  * @param config - Test configuration including signer factory and env vars
- * @param litesvm - LiteSVM instance (must be provided by consuming project)
+ * @param litesvm - LiteSVM instance (must be provided by consuming trezoa)
  * @param options - Optional test configuration
  */
 export async function runSignerIntegrationTest<T extends TestSigner>(
